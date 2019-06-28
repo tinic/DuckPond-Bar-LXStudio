@@ -26,13 +26,50 @@ heronarts.lx.studio.LXStudio lx;
 
 void setup() {
   // Processing setup, constructs the window and the LX instance
-  size(800, 720, P3D);
+  size(1024, 720, P3D);
   lx = new heronarts.lx.studio.LXStudio(this, buildModel(), MULTITHREADED);
   lx.ui.setResizable(RESIZABLE);
 }
 
+int[] getIndices(List<LXPoint> points) {
+  int[] indices = new int[points.size()];
+  for (int i = 0; i < points.size(); i++) {
+    indices[i] = points.get(i).index;
+  }
+  return indices;
+}
+
 void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {
-  // Add custom components or output drivers here
+  final double MAX_BRIGHTNESS = 1.0;
+  final String[] ARTNET_IPS = {
+    "10.33.0.1"
+  };
+  try {
+    LXDatagramOutput output = new LXDatagramOutput(lx);
+
+    for (int i = 0; i < ARTNET_IPS.length; i++) {
+
+      Fixture bar = (Fixture)((GridModel3D)lx.model).fixtures.get(0);
+      
+      ArtNetDatagram frontDatagram = new ArtNetDatagram(getIndices(bar.front), 0);
+      frontDatagram.setAddress(ARTNET_IPS[i]);
+      frontDatagram.setByteOrder(LXDatagram.ByteOrder.RGB);  
+      output.addDatagram(frontDatagram);
+      
+      ArtNetDatagram backDatagram = new ArtNetDatagram(getIndices(bar.back), 4);
+      backDatagram.setAddress(ARTNET_IPS[i]);
+      backDatagram.setByteOrder(LXDatagram.ByteOrder.RGB);  
+      output.addDatagram(backDatagram);
+      
+      output.brightness.setNormalized(MAX_BRIGHTNESS);
+    }
+    
+    // Add the datagram output to the LX engine
+    lx.addOutput(output);
+
+  } catch (Exception x) {
+    x.printStackTrace();
+  }
 }
 
 void onUIReady(heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {
