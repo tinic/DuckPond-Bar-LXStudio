@@ -40,9 +40,9 @@ int[] getIndices(List<LXPoint> points) {
 }
 
 void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {
-  final double MAX_BRIGHTNESS = 1.0;
+  final double MAX_BRIGHTNESS = 0.75;
   final String[] ARTNET_IPS = {
-    "10.33.0.1"
+    "192.168.1.187"
   };
   try {
     LXDatagramOutput output = new LXDatagramOutput(lx);
@@ -51,15 +51,40 @@ void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStu
 
       Fixture bar = (Fixture)((GridModel3D)lx.model).fixtures.get(0);
       
-      ArtNetDatagram frontDatagram = new ArtNetDatagram(getIndices(bar.front), 0);
-      frontDatagram.setAddress(ARTNET_IPS[i]);
-      frontDatagram.setByteOrder(LXDatagram.ByteOrder.RGB);  
-      output.addDatagram(frontDatagram);
+      int universe = 0;
+      int[] indices = getIndices(bar.front);
+      int total = indices.length;
+      int start = 0;
       
-      ArtNetDatagram backDatagram = new ArtNetDatagram(getIndices(bar.back), 4);
-      backDatagram.setAddress(ARTNET_IPS[i]);
-      backDatagram.setByteOrder(LXDatagram.ByteOrder.RGB);  
-      output.addDatagram(backDatagram);
+      while (total > 0) {
+        int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170));
+        ArtNetDatagram frontDatagram = new ArtNetDatagram(split);
+        frontDatagram.setAddress(ARTNET_IPS[i]);
+        frontDatagram.setByteOrder(LXDatagram.ByteOrder.RGB);  
+        frontDatagram.setUniverseNumber(universe);
+        frontDatagram.setSequenceEnabled(true);
+        output.addDatagram(frontDatagram);
+        total -= split.length;
+        start += split.length;
+        universe++;
+      }
+      
+      universe = 4;
+      indices = getIndices(bar.back);
+      total = indices.length;
+      start = 0;      
+      while (total > 0) {
+        int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170));
+        ArtNetDatagram backDatagram = new ArtNetDatagram(split);
+        backDatagram.setAddress(ARTNET_IPS[i]);
+        backDatagram.setByteOrder(LXDatagram.ByteOrder.RGB);  
+        backDatagram.setUniverseNumber(universe);
+        backDatagram.setSequenceEnabled(true);
+        output.addDatagram(backDatagram);
+        total -= split.length;
+        start += split.length;
+        universe++;
+      }
       
       output.brightness.setNormalized(MAX_BRIGHTNESS);
     }
