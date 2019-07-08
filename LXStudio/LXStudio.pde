@@ -91,7 +91,6 @@ void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStu
     
     // Add the datagram output to the LX engine
     lx.addOutput(output);
-
   } catch (Exception x) {
     x.printStackTrace();
   }
