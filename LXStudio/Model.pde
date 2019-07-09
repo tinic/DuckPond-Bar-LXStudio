@@ -15,14 +15,14 @@ public static class GridModel3D extends LXModel {
 
 public static class Fixture extends LXAbstractFixture {
   
-  public final List<LXPoint> front;
-  public final List<LXPoint> back;
-  public final List<LXPoint> umbrellas;
+  public final List<LXPoint> top_front;
+  public final List<LXPoint> top_back;
+  public final List<List<LXPoint>> umbrellas;
 
   Fixture() {
-    List<LXPoint> front = new ArrayList<LXPoint>();
-    List<LXPoint> back = new ArrayList<LXPoint>();
-    List<LXPoint> umbrellas = new ArrayList<LXPoint>();
+    List<LXPoint> top_front = new ArrayList<LXPoint>();
+    List<LXPoint> top_back = new ArrayList<LXPoint>();
+    List<List<LXPoint>> umbrellas = new ArrayList<List<LXPoint>>();
 
     float bar_height = 1.0;
 
@@ -66,7 +66,7 @@ public static class Fixture extends LXAbstractFixture {
     for (int p = 0; p < bar_leds_front.length; p+=2) {
       LXPoint pf = new LXPoint(bar_leds_front[p+0], bar_leds_front[p+1], bar_height);
       addPoint(pf);
-      front.add(pf);
+      top_front.add(pf);
     }
 
     float[] bar_leds_back = {
@@ -105,7 +105,7 @@ public static class Fixture extends LXAbstractFixture {
     for (int p = 0; p < bar_leds_back.length; p+=2) {
       LXPoint pb = new LXPoint(bar_leds_back[p+0], bar_leds_back[p+1], bar_height);
       addPoint(pb);
-      back.add(pb);
+      top_back.add(pb);
     }
 
     float[] umbrella_locations = {
@@ -120,6 +120,7 @@ public static class Fixture extends LXAbstractFixture {
        1.600, -0.500 + 1.000,
     };
     for (int u = 0; u < 9; u++) {
+      List<LXPoint> umbrella = new ArrayList<LXPoint>();
       double xl = umbrella_locations[u * 2 + 0];
       double yl = umbrella_locations[u * 2 + 1];
       for (int p = 0; p < 6; p++) {
@@ -133,13 +134,14 @@ public static class Fixture extends LXAbstractFixture {
           double y = ym * (f * l) + ym * o; 
           LXPoint pb = new LXPoint(x+xl,y+yl,3.000);
           addPoint(pb);
-          umbrellas.add(pb);
+          umbrella.add(pb);
         }
       }
+      umbrellas.add(umbrella);
     }
 
-    this.front = Collections.unmodifiableList(front);
-    this.back = Collections.unmodifiableList(back);
+    this.top_front = Collections.unmodifiableList(top_front);
+    this.top_back = Collections.unmodifiableList(top_back);
     this.umbrellas = Collections.unmodifiableList(umbrellas);
     
   } 

@@ -237,15 +237,15 @@ public static class Pattern1D extends LXPattern {
     Fixture bar = (Fixture)((GridModel3D)lx.model).fixtures.get(0);
 
     int a = 0;
-    for (LXPoint p : bar.front) {
-      LXFloat4 f = calc(tm, new LXFloat4((double)a / (double)(bar.front.size()-1), 0.0, 0.0, 1.0));
+    for (LXPoint p : bar.top_front) {
+      LXFloat4 f = calc(tm, new LXFloat4((double)a / (double)(bar.top_front.size()-1), 0.0, 0.0, 1.0));
       colors[p.index] = LXColor.rgb((int)(f.x*255.0), (int)(f.y*255.0), (int)(f.z*255.0));
       a++;
     } 
     
     int b = 0;
-    for (LXPoint p : bar.back) {
-      LXFloat4 f = calc(tm, new LXFloat4((double)b / (double)(bar.back.size()-1), 0.0, 0.0, 1.0));
+    for (LXPoint p : bar.top_back) {
+      LXFloat4 f = calc(tm, new LXFloat4((double)b / (double)(bar.top_back.size()-1), 0.0, 0.0, 1.0));
       colors[p.index] = LXColor.rgb((int)(f.x*255.0), (int)(f.y*255.0), (int)(f.z*255.0));
       b++;
     } 

@@ -41,42 +41,73 @@ int[] getIndices(List<LXPoint> points) {
 
 void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {
   final double MAX_BRIGHTNESS = 0.75;
-  final String[] ARTNET_IPS = {
-    "192.168.1.187"
-  };
   try {
+
+    final String BAR_TOP_IP = "10.42.0.2";
+    //final String BAR_FRONT_IP = "10.42.0.3";
+    //final String BAR_BACK_IP = "10.42.0.4";
+
+    final String UMBRELLA_IPs[] = {
+        "10.42.0.10",
+        "10.42.0.11",
+        "10.42.0.12",
+        "10.42.0.13",
+        "10.42.0.14",
+        "10.42.0.15",
+        "10.42.0.16",
+        "10.42.0.17",
+        "10.42.0.18"
+    };
+    
     LXDatagramOutput output = new LXDatagramOutput(lx);
 
-    for (int i = 0; i < ARTNET_IPS.length; i++) {
-
-      Fixture bar = (Fixture)((GridModel3D)lx.model).fixtures.get(0);
-      
-      int universe = 0;
-      int[] indices = getIndices(bar.front);
-      int total = indices.length;
-      int start = 0;
-      
-      while (total > 0) {
-        int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170));
-        ArtNetDatagram frontDatagram = new ArtNetDatagram(split);
-        frontDatagram.setAddress(ARTNET_IPS[i]);
-        frontDatagram.setByteOrder(LXDatagram.ByteOrder.RGB);  
-        frontDatagram.setUniverseNumber(universe);
-        frontDatagram.setSequenceEnabled(true);
-        output.addDatagram(frontDatagram);
-        total -= split.length;
-        start += split.length;
-        universe++;
-      }
-      
+    Fixture bar = (Fixture)((GridModel3D)lx.model).fixtures.get(0);
+    
+    int universe = 0;
+    int[] indices = getIndices(bar.top_front);
+    int total = indices.length;
+    int start = 0;
+    
+    
+    while (total > 0) {
+      int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170));
+      ArtNetDatagram frontDatagram = new ArtNetDatagram(indices);
+      frontDatagram.setAddress(BAR_TOP_IP);
+      frontDatagram.setByteOrder(LXDatagram.ByteOrder.RGB);  
+      frontDatagram.setUniverseNumber(universe);
+      frontDatagram.setSequenceEnabled(true);
+      output.addDatagram(frontDatagram);
+      total -= split.length;
+      start += split.length;
+      universe++;
+    }
+    
+    universe = 4;
+    indices = getIndices(bar.top_back);
+    total = indices.length;
+    start = 0;      
+    while (total > 0) {
+      int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170));
+      ArtNetDatagram backDatagram = new ArtNetDatagram(indices);
+      backDatagram.setAddress(BAR_TOP_IP);
+      backDatagram.setByteOrder(LXDatagram.ByteOrder.RGB);  
+      backDatagram.setUniverseNumber(universe);
+      backDatagram.setSequenceEnabled(true);
+      output.addDatagram(backDatagram);
+      total -= split.length;
+      start += split.length;
+      universe++;
+    }
+    
+    for (int u = 0 ; u < bar.umbrellas.size(); u++) {
       universe = 4;
-      indices = getIndices(bar.back);
+      indices = getIndices(bar.umbrellas.get(u));
       total = indices.length;
-      start = 0;      
+      start = 0;
       while (total > 0) {
         int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170));
         ArtNetDatagram backDatagram = new ArtNetDatagram(split);
-        backDatagram.setAddress(ARTNET_IPS[i]);
+        backDatagram.setAddress(UMBRELLA_IPs[u]);
         backDatagram.setByteOrder(LXDatagram.ByteOrder.RGB);  
         backDatagram.setUniverseNumber(universe);
         backDatagram.setSequenceEnabled(true);
@@ -85,9 +116,9 @@ void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStu
         start += split.length;
         universe++;
       }
-      
-      output.brightness.setNormalized(MAX_BRIGHTNESS);
     }
+
+    output.brightness.setNormalized(MAX_BRIGHTNESS);
     
     // Add the datagram output to the LX engine
     lx.addOutput(output);
