@@ -119,6 +119,7 @@ public static class Fixture extends LXAbstractFixture {
        1.200,  0.500 + 1.000,
        1.600, -0.500 + 1.000,
     };
+    
     for (int u = 0; u < 9; u++) {
       List<LXPoint> umbrella = new ArrayList<LXPoint>();
       double xl = umbrella_locations[u * 2 + 0];

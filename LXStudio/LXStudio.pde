@@ -11,16 +11,6 @@
  * PURPOSE, WITH RESPECT TO THE SOFTWARE.
  */
 
-// ---------------------------------------------------------------------------
-//
-// Welcome to LX Studio! Getting started is easy...
-// 
-// (1) Quickly scan this file
-// (2) Look at "Model" to define your model
-// (3) Move on to "Patterns" to write your animations
-// 
-// ---------------------------------------------------------------------------
-
 // Reference to top-level LX instance
 heronarts.lx.studio.LXStudio lx;
 
@@ -39,13 +29,38 @@ int[] getIndices(List<LXPoint> points) {
   return indices;
 }
 
+void addDatagram(LXDatagramOutput output, int universe, int[] indices, String address) {
+    try {
+      int total = indices.length;
+      int start = 0;
+      while (total > 0) {
+        int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170));
+        ArtNetDatagram datagram = new ArtNetDatagram(indices);
+        datagram.setAddress(address);
+        datagram.setByteOrder(LXDatagram.ByteOrder.RGB);  
+        datagram.setUniverseNumber(universe);
+        datagram.setSequenceEnabled(true);
+        output.addDatagram(datagram);
+        total -= split.length;
+        start += split.length;
+        universe++;
+      }
+  } catch (Exception x) {
+    x.printStackTrace();
+  }
+}
+
 void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {
-  final double MAX_BRIGHTNESS = 0.75;
   try {
+    LXDatagramOutput output = new LXDatagramOutput(lx);
+
+    Fixture bar = (Fixture)((GridModel3D)lx.model).fixtures.get(0);
 
     final String BAR_TOP_IP = "10.42.0.2";
-    //final String BAR_FRONT_IP = "10.42.0.3";
-    //final String BAR_BACK_IP = "10.42.0.4";
+    // Port A
+    addDatagram(output, 0, getIndices(bar.top_front), BAR_TOP_IP);
+    // Port B
+    addDatagram(output, 4, getIndices(bar.top_back), BAR_TOP_IP);
 
     final String UMBRELLA_IPs[] = {
         "10.42.0.10",
@@ -58,70 +73,17 @@ void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStu
         "10.42.0.17",
         "10.42.0.18"
     };
-    
-    LXDatagramOutput output = new LXDatagramOutput(lx);
-
-    Fixture bar = (Fixture)((GridModel3D)lx.model).fixtures.get(0);
-    
-    int universe = 0;
-    int[] indices = getIndices(bar.top_front);
-    int total = indices.length;
-    int start = 0;
-    
-    
-    while (total > 0) {
-      int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170));
-      ArtNetDatagram frontDatagram = new ArtNetDatagram(indices);
-      frontDatagram.setAddress(BAR_TOP_IP);
-      frontDatagram.setByteOrder(LXDatagram.ByteOrder.RGB);  
-      frontDatagram.setUniverseNumber(universe);
-      frontDatagram.setSequenceEnabled(true);
-      output.addDatagram(frontDatagram);
-      total -= split.length;
-      start += split.length;
-      universe++;
-    }
-    
-    universe = 4;
-    indices = getIndices(bar.top_back);
-    total = indices.length;
-    start = 0;      
-    while (total > 0) {
-      int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170));
-      ArtNetDatagram backDatagram = new ArtNetDatagram(indices);
-      backDatagram.setAddress(BAR_TOP_IP);
-      backDatagram.setByteOrder(LXDatagram.ByteOrder.RGB);  
-      backDatagram.setUniverseNumber(universe);
-      backDatagram.setSequenceEnabled(true);
-      output.addDatagram(backDatagram);
-      total -= split.length;
-      start += split.length;
-      universe++;
-    }
-    
     for (int u = 0 ; u < bar.umbrellas.size(); u++) {
-      universe = 4;
-      indices = getIndices(bar.umbrellas.get(u));
-      total = indices.length;
-      start = 0;
-      while (total > 0) {
-        int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170));
-        ArtNetDatagram backDatagram = new ArtNetDatagram(split);
-        backDatagram.setAddress(UMBRELLA_IPs[u]);
-        backDatagram.setByteOrder(LXDatagram.ByteOrder.RGB);  
-        backDatagram.setUniverseNumber(universe);
-        backDatagram.setSequenceEnabled(true);
-        output.addDatagram(backDatagram);
-        total -= split.length;
-        start += split.length;
-        universe++;
-      }
+      // Port A
+      addDatagram(output, 0, getIndices(bar.umbrellas.get(u)), UMBRELLA_IPs[u]);
     }
 
+    final double MAX_BRIGHTNESS = 0.75;
     output.brightness.setNormalized(MAX_BRIGHTNESS);
-    
+
     // Add the datagram output to the LX engine
     lx.addOutput(output);
+    
   } catch (Exception x) {
     x.printStackTrace();
   }
