@@ -68,6 +68,37 @@ public static class LXFloat4 {
         return new LXFloat4(this.x / div, this.y / div, this.z / div, this.w / div);
     }
     
+    public static LXFloat4 hsv(double h, double s, double v) {
+
+      int rd = (int)( 6.0 * h );
+      
+      double f = h * 6.0 - (double)rd;
+      double p = v * (1.0 - s);
+      double q = v * (1.0 - f * s);
+      double t = v * (1.0 - (1.0 - f) * s);
+  
+      double r = 0.0;
+      double g = 0.0;
+      double b = 0.0;
+      switch ( rd  % 6 ) {
+        case 0: r = v; g = t; b = p; break;
+        case 1: r = q; g = v; b = p; break;
+        case 2: r = p; g = v; b = t; break;
+        case 3: r = p; g = q; b = v; break;
+        case 4: r = t; g = p; b = v; break;
+        case 5: r = v; g = p; b = q; break;
+      }
+      return new LXFloat4(r, g, b, 1.0);
+    }
+    
+    public LXFloat4 gamma() {
+        return new LXFloat4(
+          Math.pow(this.x, 2.7),
+          Math.pow(this.y, 2.7),
+          Math.pow(this.z, 2.7),
+          Math.pow(this.w, 2.7));
+    }
+    
     public void zero() {
         x = 0;
         y = 0;
@@ -198,7 +229,7 @@ public static class Pattern1D extends LXPattern {
       pos.y = h * 0.5;
       pos.z = h * 0.25;
     
-      return pos.clamp();
+      return pos.clamp().gamma();
   }
 
   public void run(double deltaMs) {
@@ -262,15 +293,22 @@ public static class GradientInterference extends Pattern1D {
   @Override
   public LXFloat4 calc(double time, LXFloat4 pos) {
     
-    double v = pos.x;
+    double a = (1 + Math.sin((pos.x * 60 + 5 * Math.sin(time)))) / 2;
+    double b = (time * 0.1 + 1 + Math.sin((pos.x * 60 + 5 * Math.sin(time))) / 5 ) + pos.x * 0.2;
+    double v = (a * a * a * a);
+    
+    pos = LXFloat4.hsv(b, 1, v);
+    
+    
+/*    double v = pos.x;
     
     pos.zero();
 
     pos = pos.add(colors[0].lerp(colors[1], reflect(v * scales[0])).mul(strength[0]));
     pos = pos.add(colors[2].lerp(colors[3], reflect(v * scales[1])).mul(strength[1]));
-    pos = pos.add(colors[4].lerp(colors[5], reflect(v * scales[2])).mul(strength[2]));
+    pos = pos.add(colors[4].lerp(colors[5], reflect(v * scales[2])).mul(strength[2]));*/
     
-    return pos.clamp();
+    return pos.clamp().gamma();
   }
 }
 
@@ -295,7 +333,7 @@ public static class Pattern3D extends LXPattern {
       pos.y = h * 0.5;
       pos.z = h * 0.25;
     
-      return pos.clamp();
+      return pos.clamp().gamma();
   }
 
   public void run(double deltaMs) {
