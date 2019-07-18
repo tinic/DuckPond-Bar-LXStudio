@@ -34,8 +34,8 @@ void addDatagram(LXDatagramOutput output, int universe, int[] indices, String ad
       int total = indices.length;
       int start = 0;
       while (total > 0) {
-        int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170));
-        ArtNetDatagram datagram = new ArtNetDatagram(indices);
+        int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170)); //<>//
+        ArtNetDatagram datagram = new ArtNetDatagram(split);
         datagram.setAddress(address);
         datagram.setByteOrder(LXDatagram.ByteOrder.RGB);  
         datagram.setUniverseNumber(universe);
@@ -56,7 +56,7 @@ void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStu
 
     Fixture bar = (Fixture)((GridModel3D)lx.model).fixtures.get(0);
 
-    final String BAR_TOP_IP = "10.42.0.2";
+    final String BAR_TOP_IP = "192.168.1.189";
     // Port A
     addDatagram(output, 0, getIndices(bar.top_front), BAR_TOP_IP);
     // Port B
