@@ -34,7 +34,7 @@ void addDatagram(LXDatagramOutput output, int universe, int[] indices, String ad
       int total = indices.length;
       int start = 0;
       while (total > 0) {
-        int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170)); //<>// //<>//
+        int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170)); //<>// //<>// //<>// //<>// //<>// //<>//
         ArtNetDatagram datagram = new ArtNetDatagram(split);
         datagram.setAddress(address);
         datagram.setByteOrder(LXDatagram.ByteOrder.RGB);  

@@ -51,12 +51,14 @@ public static class Umbrella  extends BarFixture {
 };
 
 public static class BarTop extends BarFixture {
+  
+  private Gradient springGradient;
+  
   public LXFloat4 calc(BarPattern.Effect effect, int index, double time, LXFloat4 glob_pos) { 
       switch (effect) {
           case Spring: {
-            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time;
-            double y = (toLocal(glob_pos).y + 1.0) * 0.5 + time;
-            return new LXFloat4(x, y, 0.0);
+            double x = (toLocal(glob_pos).x + 1.0) * 0.5;
+            return springGradient.get(x);
           }
           case Summer: {
             return glob_pos;    
@@ -73,7 +75,16 @@ public static class BarTop extends BarFixture {
   
   BarTop(String ip) {
     super(ip);
+    
+    LXFloat4[] springGradient = {
+       new LXFloat4(0.0,0.0,1.0,0.00),
+       new LXFloat4(0.0,1.0,0.0,0.25),
+       new LXFloat4(1.0,0.0,0.0,0.50),
+       new LXFloat4(0.0,1.0,0.0,1.00)
+    };
 
+    this.springGradient = new Gradient(springGradient, Gradient.ColorMode.RGB);
+  
     List<LXPoint> top_front = new ArrayList<LXPoint>();
     List<LXPoint> top_back = new ArrayList<LXPoint>();
     
