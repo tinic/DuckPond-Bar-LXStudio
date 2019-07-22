@@ -9,9 +9,10 @@ public static class Umbrella  extends BarFixture {
   public LXFloat4 calc(BarPattern.Effect effect, int index, double time, LXFloat4 glob_pos) { 
       switch (effect) {
           case Spring: {
-            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + Math.sin(time);
-            double y = (toLocal(glob_pos).y + 1.0) * 0.5 + Math.cos(time);
-            return rainbowGradient.reflect(x);
+            double x = Math.sin((toLocal(glob_pos).x + 1.0) * 0.25 + time * 0.5);
+            double y = Math.cos((toLocal(glob_pos).y + 1.0) * 0.25 + time * 0.5);
+            double l = 1.0 - toLocal(glob_pos).len() + 0.5;
+            return rainbowGradient.reflect(x * y).mul(l).clamp().gamma();
           }
           case Summer: {
             return glob_pos;    
@@ -66,8 +67,8 @@ public static class BarTop extends BarFixture {
   public LXFloat4 calc(BarPattern.Effect effect, int index, double time, LXFloat4 glob_pos) { 
       switch (effect) {
           case Spring: {
-            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time;
-            return springGradient.reflect(x);
+            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05;
+            return springGradient.reflect(x).clamp().gamma();
           }
           case Summer: {
             return glob_pos;    
