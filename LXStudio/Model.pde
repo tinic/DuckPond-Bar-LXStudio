@@ -57,8 +57,8 @@ public static class BarTop extends BarFixture {
   public LXFloat4 calc(BarPattern.Effect effect, int index, double time, LXFloat4 glob_pos) { 
       switch (effect) {
           case Spring: {
-            double x = (toLocal(glob_pos).x + 1.0) * 0.5;
-            return springGradient.get(x);
+            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time;
+            return springGradient.reflect(x);
           }
           case Summer: {
             return glob_pos;    
@@ -77,10 +77,10 @@ public static class BarTop extends BarFixture {
     super(ip);
     
     LXFloat4[] springGradient = {
-       new LXFloat4(0.0,0.0,1.0,0.00),
-       new LXFloat4(0.0,1.0,0.0,0.25),
-       new LXFloat4(1.0,0.0,0.0,0.50),
-       new LXFloat4(0.0,1.0,0.0,1.00)
+       new LXFloat4(0x289877,0.00),
+       new LXFloat4(0xd4e8c2,0.49),
+       new LXFloat4(0xe2dda1,0.75),
+       new LXFloat4(0xdea120,1.00)
     };
 
     this.springGradient = new Gradient(springGradient, Gradient.ColorMode.RGB);

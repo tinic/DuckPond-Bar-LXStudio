@@ -40,8 +40,31 @@ public static class Gradient {
 
     this.colors = Collections.unmodifiableList(colors);
   }
+
+  public LXFloat4 repeat(double i) {
+      i %= 1;
+      i *= 255.0;
+      double f = i % 1;
+      LXFloat4 a = colors.get((int)(i));
+      LXFloat4 b = colors.get((int)(i+1));
+      return a.lerp(b, f);
+  }
+
+  public LXFloat4 reflect(double i) {
+      if (((int)i & 1) == 0) {
+        i %= 1;
+      } else {
+        i %= 1;
+        i = 1.0 - i;
+      }
+      i *= 255.0;
+      double f = i % 1;
+      LXFloat4 a = colors.get((int)(i));
+      LXFloat4 b = colors.get((int)(i+1));
+      return a.lerp(b, f);
+  }
   
-  public LXFloat4 get(double i) {
+  public LXFloat4 clamp(double i) {
       if (i <= 0.0) {
           return colors.get(0);
       }

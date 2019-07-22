@@ -8,6 +8,20 @@ public static class LXFloat4 {
   
     public LXFloat4() { 
     }
+    
+    public LXFloat4(int col) {
+      x = (double)((col >> 16) & 0xFF) / 255.0; 
+      y = (double)((col >>  8) & 0xFF) / 255.0; 
+      z = (double)((col >>  0) & 0xFF) / 255.0; 
+      w = 1.0; 
+    }
+
+    public LXFloat4(int col, double alpha) {
+      x = (double)((col >> 16) & 0xFF) / 255.0; 
+      y = (double)((col >>  8) & 0xFF) / 255.0; 
+      z = (double)((col >>  0) & 0xFF) / 255.0; 
+      w = alpha;
+    }
 
     public LXFloat4(double initX, double initY, double initZ) { 
         x = initX;

@@ -31,7 +31,7 @@ public static class BarPattern extends LXPattern {
        List<LXPoint> points = barFixture.getPoints();
        for (int c = 0; c < points.size(); c++) {
           LXPoint p = points.get(c);
-          LXFloat4 f = barFixture.calc(effect.getEnum(), c, tm, new LXFloat4(p.x, p.y, p.z, 1.0));
+          LXFloat4 f = barFixture.calc(effect.getEnum(), c, tm, new LXFloat4(p.x, p.y, p.z));
           colors[p.index] = LXColor.rgb((int)(f.x*255.0), (int)(f.y*255.0), (int)(f.z*255.0));
        } 
     }
