@@ -15,12 +15,14 @@ public static class Gradient {
 
         LXFloat4 a = stops[(int)(0)];
         LXFloat4 b = stops[(int)(1)];
-        for (int d = (stops.length-2); d >= 0 ; d--) {
-            if ( f >= (stops[d].w) ) {
-              a = stops[(int)(d+0)];
-              b = stops[(int)(d+1)];
-              break;
-            }
+        if (stops.length > 2) {
+          for (int d = (stops.length-2); d >= 0 ; d--) {
+              if ( f >= (stops[d].w) ) {
+                a = stops[(int)(d+0)];
+                b = stops[(int)(d+1)];
+                break;
+              }
+          }
         }
 
         f -= a.w;
@@ -45,12 +47,13 @@ public static class Gradient {
       i %= 1;
       i *= 255.0;
       double f = i % 1;
-      LXFloat4 a = colors.get((int)(i));
-      LXFloat4 b = colors.get((int)(i+1));
+      LXFloat4 a = colors.get(((int)(i))&0xFF);
+      LXFloat4 b = colors.get(((int)(i)+1)&0xFF);
       return a.lerp(b, f);
   }
 
   public LXFloat4 reflect(double i) {
+      i = Math.abs(i);
       if (((int)i & 1) == 0) {
         i %= 1;
       } else {

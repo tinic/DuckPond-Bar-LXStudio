@@ -4,12 +4,14 @@ import java.util.Arrays;
 
 public static class Umbrella  extends BarFixture {
   
+  private Gradient rainbowGradient;
+
   public LXFloat4 calc(BarPattern.Effect effect, int index, double time, LXFloat4 glob_pos) { 
       switch (effect) {
           case Spring: {
-            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time;
-            double y = (toLocal(glob_pos).y + 1.0) * 0.5 + time;
-            return new LXFloat4(x, y, 0.0);
+            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + Math.sin(time);
+            double y = (toLocal(glob_pos).y + 1.0) * 0.5 + Math.cos(time);
+            return rainbowGradient.reflect(x);
           }
           case Summer: {
             return glob_pos;    
@@ -26,6 +28,13 @@ public static class Umbrella  extends BarFixture {
 
   Umbrella(int id, String ip, double xl, double yl, double zl) {
     super(ip);
+
+    LXFloat4[] rainbowGradient = {
+       new LXFloat4(0.0, 1.0, 1.0, 0.00),
+       new LXFloat4(1.0, 1.0, 1.0, 1.00)
+    };
+
+    this.rainbowGradient = new Gradient(rainbowGradient, Gradient.ColorMode.HSV);
 
     List<LXPoint> leds = new ArrayList<LXPoint>();
     for (int p = 0; p < 10; p++) {
