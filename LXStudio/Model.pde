@@ -2,27 +2,82 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Arrays;
 
-LXModel buildModel() {
-  // A three-dimensional grid model
-  return new GridModel3D();
-}
-
-public static class GridModel3D extends LXModel {
-  public GridModel3D() {
-    super(new Fixture());
-  }
-}
-
-public static class Fixture extends LXAbstractFixture {
+public static class Umbrella  extends BarFixture {
   
-  public final List<LXPoint> top_front;
-  public final List<LXPoint> top_back;
-  public final List<List<LXPoint>> umbrellas;
+  public LXFloat4 calc(BarPattern.Effect effect, int index, double time, LXFloat4 glob_pos) { 
+      switch (effect) {
+          case Spring: {
+            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time;
+            double y = (toLocal(glob_pos).y + 1.0) * 0.5 + time;
+            return new LXFloat4(x, y, 0.0);
+          }
+          case Summer: {
+            return glob_pos;    
+          } 
+          case Autum: {
+            return glob_pos;    
+          } 
+          case Winter: {
+            return glob_pos;    
+          } 
+      }
+      return glob_pos;    
+  }
 
-  Fixture() {
+  Umbrella(int id, String ip, double xl, double yl, double zl) {
+    super(ip);
+
+    List<LXPoint> leds = new ArrayList<LXPoint>();
+    for (int p = 0; p < 10; p++) {
+      double xm = Math.sin((2.0 * Math.PI / 6.0) * p);
+      double ym = Math.cos((2.0 * Math.PI / 6.0) * p);
+      for (int q = 0; q < 10; q++) {
+        double l = 0.36666;
+        double o = 0.0333333;
+        double f = (double)(((q&1) == 1) ? (10-q) : q) / 11.0;
+        double x = xm * (f * l) + xm * o; 
+        double y = ym * (f * l) + ym * o; 
+        LXPoint pb = new LXPoint(x+xl,y+yl,zl);
+        addPoint(pb);
+        leds.add(pb);
+      }
+    }
+    
+    this.id = id;
+    this.leds = Collections.unmodifiableList(leds);
+  }
+
+  public final int id;
+};
+
+public static class BarTop extends BarFixture {
+  public LXFloat4 calc(BarPattern.Effect effect, int index, double time, LXFloat4 glob_pos) { 
+      switch (effect) {
+          case Spring: {
+            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time;
+            double y = (toLocal(glob_pos).y + 1.0) * 0.5 + time;
+            return new LXFloat4(x, y, 0.0);
+          }
+          case Summer: {
+            return glob_pos;    
+          } 
+          case Autum: {
+            return glob_pos;    
+          } 
+          case Winter: {
+            return glob_pos;    
+          } 
+      }
+      return glob_pos;    
+  }
+  
+  BarTop(String ip) {
+    super(ip);
+
     List<LXPoint> top_front = new ArrayList<LXPoint>();
     List<LXPoint> top_back = new ArrayList<LXPoint>();
-    List<List<LXPoint>> umbrellas = new ArrayList<List<LXPoint>>();
+    
+    List<LXPoint> leds = new ArrayList<LXPoint>();
 
     float bar_height = 1.0;
 
@@ -67,6 +122,7 @@ public static class Fixture extends LXAbstractFixture {
       LXPoint pf = new LXPoint(bar_leds_front[p+0], bar_leds_front[p+1], bar_height);
       addPoint(pf);
       top_front.add(pf);
+      leds.add(pf);
     }
 
     float[] bar_leds_back = {
@@ -106,44 +162,170 @@ public static class Fixture extends LXAbstractFixture {
       LXPoint pb = new LXPoint(bar_leds_back[p+0], bar_leds_back[p+1], bar_height);
       addPoint(pb);
       top_back.add(pb);
+      leds.add(pb);
     }
-
-    float[] umbrella_locations = {
-      -1.600, -0.500 + 1.000,
-      -1.200,  0.500 + 1.000,
-      -0.800, -0.500 + 1.000,
-      -0.400,  0.500 + 1.000,
-      -0.000, -0.500 + 1.000,
-       0.400,  0.500 + 1.000,
-       0.800, -0.500 + 1.000,
-       1.200,  0.500 + 1.000,
-       1.600, -0.500 + 1.000,
-    };
     
-    for (int u = 0; u < 9; u++) {
-      List<LXPoint> umbrella = new ArrayList<LXPoint>();
-      double xl = umbrella_locations[u * 2 + 0];
-      double yl = umbrella_locations[u * 2 + 1];
-      for (int p = 0; p < 6; p++) {
-        double xm = Math.sin((2.0 * Math.PI / 6.0) * p);
-        double ym = Math.cos((2.0 * Math.PI / 6.0) * p);
-        for (int q = 0; q < 11; q++) {
-          double l = 0.36666;
-          double o = 0.0333333;
-          double f = (double)q / 11.0;
-          double x = xm * (f * l) + xm * o; 
-          double y = ym * (f * l) + ym * o; 
-          LXPoint pb = new LXPoint(x+xl,y+yl,3.000);
-          addPoint(pb);
-          umbrella.add(pb);
-        }
-      }
-      umbrellas.add(umbrella);
-    }
-
     this.top_front = Collections.unmodifiableList(top_front);
     this.top_back = Collections.unmodifiableList(top_back);
-    this.umbrellas = Collections.unmodifiableList(umbrellas);
-    
+    this.leds = Collections.unmodifiableList(leds);
   } 
+
+  public final List<LXPoint> top_front;
+  public final List<LXPoint> top_back;
+}
+
+public static class BarFixture  extends LXAbstractFixture {
+  
+  List<LXPoint> leds;
+  
+  BarFixture(String ip) {
+    this.ip = ip;
+    boundsValid = false;
+    centerValid = false;
+    sizeValid = false;
+    factorValid = false;
+  }
+
+  public LXFloat4 calc(BarPattern.Effect effect, int index, double time, LXFloat4 glob_pos) { 
+      return glob_pos.clamp().gamma();
+  }
+  
+  public void calcBounds() {
+    if (boundsValid) {
+        return;
+    }
+
+    xmin = +1000.0;
+    ymin = +1000.0;
+    zmin = +1000.0;
+    
+    xmax = -1000.0;
+    ymax = -1000.0;
+    zmax = -1000.0;
+    
+    for (int c=0; c<leds.size(); c++) {
+        xmin = Math.min(xmin, leds.get(c).x);
+        xmax = Math.max(xmax, leds.get(c).x);
+        ymin = Math.min(ymin, leds.get(c).y);
+        ymax = Math.max(ymax, leds.get(c).y);
+        zmin = Math.min(zmin, leds.get(c).z);
+        zmax = Math.max(zmax, leds.get(c).z);
+    }
+    
+    boundsValid = true;
+  }
+
+  public LXFloat4 center() {
+    if (centerValid) {
+        return this.center;
+    }
+
+    calcBounds();
+    this.center = new LXFloat4(
+      (xmax + xmin) * 0.5, 
+      (ymax + ymin) * 0.5, 
+      (zmax + zmin) * 0.5);
+      
+    centerValid = true;
+
+    return this.center;
+  }
+  
+  public LXFloat4 size() {
+    if (sizeValid) {
+        return this.size;
+    }
+
+    calcBounds();
+    this.size = new LXFloat4(xmax - xmin, ymax - ymin, zmax - zmin);
+    sizeValid = true;
+    return this.size;
+  }
+  
+  public LXFloat4 normalize(LXFloat4 pos) {
+    if (factorValid) {
+      return new LXFloat4(pos.x * this.factor.x,  pos.y * this.factor.y, pos.z * this.factor.z);
+    }
+    LXFloat4 size = size();
+    double xf = 1.0;
+    double yf = 1.0;
+    double zf = 1.0;
+    if (size.x != 0) xf = 2.0 / size.x;
+    if (size.y != 0) yf = 2.0 / size.y;
+    if (size.z != 0) zf = 2.0 / size.z;
+    this.factor = new LXFloat4(xf, yf, zf);
+    factorValid = true;
+    return new LXFloat4(pos.x * this.factor.x,  pos.y * this.factor.y, pos.z * this.factor.z);
+  }
+  
+  public LXFloat4 toLocal(LXFloat4 pos) {
+      LXFloat4 center = center();
+      return normalize(new LXFloat4(
+        pos.x - center.x,
+        pos.y - center.y,
+        pos.z - center.z));
+  }
+
+  public final String ip;
+  
+  private boolean boundsValid;
+  private double xmin;
+  private double xmax;
+  private double ymin;
+  private double ymax;
+  private double zmin;
+  private double zmax;
+  private boolean centerValid;
+  private LXFloat4 center;
+  private boolean sizeValid;
+  private LXFloat4 size;
+  private boolean factorValid;
+  private LXFloat4 factor;
+}
+
+public static class DuckPondBar extends LXModel {
+
+  static DuckPondBar create() {
+
+    LXFixture fixtures[] = {
+
+      new BarTop("192.168.1.189"),
+      
+      new Umbrella(0, "10.42.0.10", -1.600, -0.500 + 1.000, 3.0000),
+      new Umbrella(1, "10.42.0.11", -1.200,  0.500 + 1.000, 3.0000),
+      new Umbrella(2, "10.42.0.12", -0.800, -0.500 + 1.000, 3.0000),
+      new Umbrella(3, "10.42.0.13", -0.400,  0.500 + 1.000, 3.0000),
+      new Umbrella(4, "10.42.0.14", -0.000, -0.500 + 1.000, 3.0000),
+      new Umbrella(5, "10.42.0.15",  0.400,  0.500 + 1.000, 3.0000),
+      new Umbrella(6, "10.42.0.16",  0.800, -0.500 + 1.000, 3.0000),
+      new Umbrella(7, "10.42.0.17",  1.200,  0.500 + 1.000, 3.0000),
+      new Umbrella(8, "10.42.0.18",  1.600, -0.500 + 1.000, 3.0000)
+      
+    };
+    
+    return new DuckPondBar(fixtures);
+  }
+  
+  BarTop barTop() {
+      LXFixture fixture = this.fixtures.get(0);
+      return (BarTop)fixture;
+  }
+  
+  List<Umbrella> umbrellas() {
+      ArrayList<Umbrella> umbrellas = new ArrayList<Umbrella>();
+      for (int c = 0; c < 9; c++) {
+          LXFixture fixture = this.fixtures.get(c+1);
+          umbrellas.add((Umbrella)fixture);
+      }
+      return umbrellas;
+  }
+  
+  private DuckPondBar(LXFixture[] fixtures) {
+    super(fixtures);
+  }
+  
+}
+
+LXModel buildModel() {
+  return DuckPondBar.create();
 }

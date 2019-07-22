@@ -34,7 +34,7 @@ void addDatagram(LXDatagramOutput output, int universe, int[] indices, String ad
       int total = indices.length;
       int start = 0;
       while (total > 0) {
-        int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170)); //<>//
+        int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170)); //<>// //<>//
         ArtNetDatagram datagram = new ArtNetDatagram(split);
         datagram.setAddress(address);
         datagram.setByteOrder(LXDatagram.ByteOrder.RGB);  
@@ -54,28 +54,17 @@ void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStu
   try {
     LXDatagramOutput output = new LXDatagramOutput(lx);
 
-    Fixture bar = (Fixture)((GridModel3D)lx.model).fixtures.get(0);
+    BarTop bar = ((DuckPondBar)lx.model).barTop();
 
-    final String BAR_TOP_IP = "192.168.1.189";
     // Port A
-    addDatagram(output, 0, getIndices(bar.top_front), BAR_TOP_IP);
+    addDatagram(output, 0, getIndices(bar.top_front), bar.ip);
     // Port B
-    addDatagram(output, 4, getIndices(bar.top_back), BAR_TOP_IP);
-
-    final String UMBRELLA_IPs[] = {
-        "10.42.0.10",
-        "10.42.0.11",
-        "10.42.0.12",
-        "10.42.0.13",
-        "10.42.0.14",
-        "10.42.0.15",
-        "10.42.0.16",
-        "10.42.0.17",
-        "10.42.0.18"
-    };
-    for (int u = 0 ; u < bar.umbrellas.size(); u++) {
+    addDatagram(output, 4, getIndices(bar.top_back), bar.ip);
+    
+    List<Umbrella> umbrellas = ((DuckPondBar)lx.model).umbrellas();
+    for (int u = 0 ; u < umbrellas.size(); u++) {
       // Port A
-      addDatagram(output, 0, getIndices(bar.umbrellas.get(u)), UMBRELLA_IPs[u]);
+      addDatagram(output, 0, getIndices(umbrellas.get(u).getPoints()), umbrellas.get(u).ip);
     }
 
     final double MAX_BRIGHTNESS = 0.75;

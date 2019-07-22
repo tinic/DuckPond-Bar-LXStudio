@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "timestamp": 1562699513244,
+  "timestamp": 1563829509925,
   "engine": {
     "id": 1,
     "class": "heronarts.lx.LXEngine",
@@ -62,7 +62,7 @@
         },
         "effects": [],
         "clips": [],
-        "patternIndex": 0,
+        "patternIndex": 1,
         "patterns": [
           {
             "id": 39,
@@ -103,7 +103,7 @@
                     "phase": 0.0,
                     "exp": 0.0
                   },
-                  "basis": 0.5186993492848038
+                  "basis": 0.5612263646419096
                 }
               ],
               "modulations": [
@@ -126,6 +126,21 @@
                   }
                 }
               ],
+              "triggers": []
+            },
+            "autoCycleEnabled": true
+          },
+          {
+            "id": 96,
+            "class": "LXStudio$BarPattern",
+            "modulationColor": -6684417,
+            "parameters": {
+              "label": "Bar",
+              "effect": 0
+            },
+            "modulation": {
+              "modulators": [],
+              "modulations": [],
               "triggers": []
             },
             "autoCycleEnabled": true
