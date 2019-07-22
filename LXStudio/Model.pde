@@ -206,21 +206,12 @@ public static class BarFixture  extends LXAbstractFixture {
         return;
     }
 
-    xmin = +1000.0;
-    ymin = +1000.0;
-    zmin = +1000.0;
-    
-    xmax = -1000.0;
-    ymax = -1000.0;
-    zmax = -1000.0;
+    min = new LXFloat4(+1000.0, +1000.0, +1000.0, 0.0);
+    max = new LXFloat4(-1000.0, -1000.0, -1000.0, 0.0);
     
     for (int c=0; c<leds.size(); c++) {
-        xmin = Math.min(xmin, leds.get(c).x);
-        xmax = Math.max(xmax, leds.get(c).x);
-        ymin = Math.min(ymin, leds.get(c).y);
-        ymax = Math.max(ymax, leds.get(c).y);
-        zmin = Math.min(zmin, leds.get(c).z);
-        zmax = Math.max(zmax, leds.get(c).z);
+        min = min.min(new LXFloat4(leds.get(c)));
+        max = max.max(new LXFloat4(leds.get(c)));
     }
     
     boundsValid = true;
@@ -233,9 +224,9 @@ public static class BarFixture  extends LXAbstractFixture {
 
     calcBounds();
     this.center = new LXFloat4(
-      (xmax + xmin) * 0.5, 
-      (ymax + ymin) * 0.5, 
-      (zmax + zmin) * 0.5);
+      (max.x + min.x) * 0.5, 
+      (max.y + min.y) * 0.5, 
+      (max.z + min.z) * 0.5);
       
     centerValid = true;
 
@@ -248,7 +239,7 @@ public static class BarFixture  extends LXAbstractFixture {
     }
 
     calcBounds();
-    this.size = new LXFloat4(xmax - xmin, ymax - ymin, zmax - zmin);
+    this.size = new LXFloat4(max.x - min.x, max.y - min.y, max.z - min.z);
     sizeValid = true;
     return this.size;
   }
@@ -280,12 +271,8 @@ public static class BarFixture  extends LXAbstractFixture {
   public final String ip;
   
   private boolean boundsValid;
-  private double xmin;
-  private double xmax;
-  private double ymin;
-  private double ymax;
-  private double zmin;
-  private double zmax;
+  private LXFloat4 min;
+  private LXFloat4 max;
   private boolean centerValid;
   private LXFloat4 center;
   private boolean sizeValid;
