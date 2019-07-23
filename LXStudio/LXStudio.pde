@@ -52,7 +52,7 @@ void addDatagram(LXDatagramOutput output, int universe, int[] indices, String ad
 
 void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {
   try {
-    LXDatagramOutput output = new LXDatagramOutput(lx);
+/*  LXDatagramOutput output = new LXDatagramOutput(lx);
 
     BarTop bar = ((DuckPondBar)lx.model).barTop();
 
@@ -72,7 +72,7 @@ void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStu
 
     // Add the datagram output to the LX engine
     lx.addOutput(output);
-    
+    */
   } catch (Exception x) {
     x.printStackTrace();
   }

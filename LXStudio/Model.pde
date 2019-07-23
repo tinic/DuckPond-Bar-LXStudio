@@ -5,20 +5,30 @@ import java.util.Arrays;
 public static class Umbrella  extends BarFixture {
   
   private Gradient rainbowGradient;
-
+  private Gradient rainyGradient;
+  private Gradient autumGradient;
+  
   public LXFloat4 calc(BarPattern.Effect effect, int index, double time, LXFloat4 glob_pos) { 
       switch (effect) {
           case Spring: {
-            double x = Math.sin((toLocal(glob_pos).x + 1.0) * 0.25 + time * 0.5);
-            double y = Math.cos((toLocal(glob_pos).y + 1.0) * 0.25 + time * 0.5);
+            double x = Math.sin((toLocal(glob_pos).x + 1.0) * 0.25 + time * 0.05);
+            double y = Math.cos((toLocal(glob_pos).y + 1.0) * 0.25 + time * 0.05);
             double l = 1.0 - toLocal(glob_pos).len() + 0.5;
             return rainbowGradient.reflect(x * y).mul(l).clamp().gamma();
           }
           case Summer: {
-            return glob_pos;    
+            double x0 = Math.sin((glob_pos.x + 1.0) * 0.5 + time * 0.05);
+            double y0 = Math.sin((glob_pos.y + 1.0) * 0.5 + time * 0.05);
+            double x1 = Math.sin((glob_pos.x + 1.0) * 10 + time * 0.5);
+            double y1 = Math.sin((glob_pos.y + 1.0) * 10 + time * 0.5);
+            return rainbowGradient.reflect(x0 * y0).add(new LXFloat4(1.0,1.0,1.0).mul(x1 * y1).clamp()).clamp();
           } 
           case Autum: {
-            return glob_pos;    
+            double x0 = Math.sin((glob_pos.x + 1.0) * 0.5 + time * 0.05);
+            double y0 = Math.sin((glob_pos.y + 1.0) * 0.5 + time * 0.05);
+            double x1 = Math.sin((glob_pos.x + 1.0) * 15 + time * 0.5);
+            double y1 = Math.sin((glob_pos.y + 1.0) * 15 + time * 0.5);
+            return rainyGradient.clamp(x1 * y1).add(autumGradient.clamp(x0 * y0).mul(new LXFloat4(0.5,0.5,0.5))).clamp();
           } 
           case Winter: {
             return glob_pos;    
@@ -27,8 +37,11 @@ public static class Umbrella  extends BarFixture {
       return glob_pos;    
   }
 
-  Umbrella(int id, String ip, double xl, double yl, double zl) {
-    super(ip);
+  public void initGradients() {
+    
+    //
+    // Go https://cssgradient.io/ to create gradients the easiest way
+    //
 
     LXFloat4[] rainbowGradient = {
        new LXFloat4(0.0, 1.0, 1.0, 0.00),
@@ -36,6 +49,35 @@ public static class Umbrella  extends BarFixture {
     };
 
     this.rainbowGradient = new Gradient(rainbowGradient, Gradient.ColorMode.HSV);
+
+    LXFloat4[] rainyGradient = {
+       new LXFloat4(0x000000, 0.00),
+       new LXFloat4(0x413a40, 0.20),
+       new LXFloat4(0x65718a, 0.40),
+       new LXFloat4(0x6985b9, 0.53),
+       new LXFloat4(0xffffff, 1.00)
+    };
+
+    this.rainyGradient = new Gradient(rainyGradient, Gradient.ColorMode.RGB);
+
+    LXFloat4[] autumGradient = {
+       new LXFloat4(0x000000, 0.00),
+       new LXFloat4(0x351e10, 0.13),
+       new LXFloat4(0x58321a, 0.25),
+       new LXFloat4(0x60201e, 0.41),
+       new LXFloat4(0x651420, 0.56),
+       new LXFloat4(0x7b5a54, 0.70),
+       new LXFloat4(0x9abf9e, 0.83),
+       new LXFloat4(0xffffff, 1.00)
+    };
+
+    this.autumGradient = new Gradient(autumGradient, Gradient.ColorMode.RGB);
+  }
+
+  Umbrella(int id, String ip, double xl, double yl, double zl) {
+    super(ip);
+
+    initGradients();
 
     int spokes = 8;
     int leds_per_spoke = 10;
@@ -66,38 +108,84 @@ public static class Umbrella  extends BarFixture {
 public static class BarTop extends BarFixture {
   
   private Gradient springGradient;
+  private Gradient summerGradient;
+  private Gradient autumGradient;
+  private Gradient winterGradient;
   
   public LXFloat4 calc(BarPattern.Effect effect, int index, double time, LXFloat4 glob_pos) { 
       switch (effect) {
           case Spring: {
             double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05;
-            return springGradient.reflect(x).clamp().gamma();
+            return springGradient.reflect(x).clamp();
           }
           case Summer: {
-            return glob_pos;    
+            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05;
+            return summerGradient.reflect(x).clamp();
           } 
           case Autum: {
-            return glob_pos;    
+            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05;
+            return autumGradient.reflect(x).clamp();
           } 
           case Winter: {
-            return glob_pos;    
+            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05;
+            return winterGradient.reflect(x).clamp();
           } 
       }
       return glob_pos;    
   }
+
+  public void initGradients() {
+
+      //
+      // Go https://cssgradient.io/ to create gradients the easiest way
+      //
+
+      LXFloat4[] springGradient = {
+         new LXFloat4(0x289877,0.00),
+         new LXFloat4(0xd4e8c2,0.49),
+         new LXFloat4(0xe2dda1,0.75),
+         new LXFloat4(0xdea120,1.00)
+      };
   
+      this.springGradient = new Gradient(springGradient, Gradient.ColorMode.RGB);
+  
+      LXFloat4[] summerGradient = {
+         new LXFloat4(0x0e7396,0.00),
+         new LXFloat4(0x7dbc3c,0.22),
+         new LXFloat4(0x91cb2b,0.34),
+         new LXFloat4(0xff9d61,0.64),
+         new LXFloat4(0xff7940,0.85),
+         new LXFloat4(0xff9100,1.00)
+      };
+  
+      this.summerGradient = new Gradient(summerGradient, Gradient.ColorMode.RGB);
+  
+      LXFloat4[] autumGradient = {
+         new LXFloat4(0xe7790b,0.00),
+         new LXFloat4(0xd1aa29,0.32),
+         new LXFloat4(0xfac5a4,0.56),
+         new LXFloat4(0xed7353,0.90),
+         new LXFloat4(0xff0000,1.00)
+      };
+  
+      this.autumGradient = new Gradient(autumGradient, Gradient.ColorMode.RGB);
+    
+      LXFloat4[] winterGradient = {
+         new LXFloat4(0xa3eed6,0.00),
+         new LXFloat4(0xdcbcd4,0.21),
+         new LXFloat4(0xff96d0,0.39),
+         new LXFloat4(0xcb81d6,0.65),
+         new LXFloat4(0x4b51f5,1.00)
+      };
+  
+      this.winterGradient = new Gradient(winterGradient, Gradient.ColorMode.RGB);
+  }
+
   BarTop(String ip) {
     super(ip);
     
-    LXFloat4[] springGradient = {
-       new LXFloat4(0x289877,0.00),
-       new LXFloat4(0xd4e8c2,0.49),
-       new LXFloat4(0xe2dda1,0.75),
-       new LXFloat4(0xdea120,1.00)
-    };
+    initGradients();
 
-    this.springGradient = new Gradient(springGradient, Gradient.ColorMode.RGB);
-  
     List<LXPoint> top_front = new ArrayList<LXPoint>();
     List<LXPoint> top_back = new ArrayList<LXPoint>();
     
@@ -300,7 +388,7 @@ public static class DuckPondBar extends LXModel {
 
     LXFixture fixtures[] = {
 
-      new BarTop("192.168.1.189"),
+      new BarTop("10.42.0.2"),
       
       new Umbrella(0, "10.42.0.10", -1.600, -0.500 + 1.000, 3.0000),
       new Umbrella(1, "10.42.0.11", -1.200,  0.500 + 1.000, 3.0000),

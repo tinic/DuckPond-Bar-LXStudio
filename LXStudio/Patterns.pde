@@ -12,20 +12,27 @@ public static class BarPattern extends LXPattern {
     Spring,
     Summer,
     Autum,
-    Winter
+    Winter,
   };
 
   public final EnumParameter<Effect> effect =
     new EnumParameter<Effect>("Effect", Effect.Spring)
     .setDescription("Which built-in Effect?");
 
+  public final BoundedParameter speed = (BoundedParameter)
+      new BoundedParameter("Speed", 0, -10, 10)
+      .setDescription("Speed")
+      .setUnits(LXParameter.Units.NONE);
+
   public BarPattern(LX lx) {
     super(lx);
     addParameter("effect", this.effect);
+    addParameter("speed", this.speed);
   }
 
   public void run(double deltaMs) {
-    tm += deltaMs * (1.0 / 1000.0);
+    double tm_factor = Math.pow(1024,speed.getNormalized() - 0.5);
+    tm += ( deltaMs * (1.0 / 1000.0) ) * tm_factor;
     for (LXFixture fixture : model.fixtures) {
        BarFixture barFixture = (BarFixture)fixture;
        List<LXPoint> points = barFixture.getPoints();
@@ -40,7 +47,6 @@ public static class BarPattern extends LXPattern {
 
 @LXCategory("Color")
 public static class RandomPattern extends LXPattern {
-
   Random rd = new Random(); // creating Random object
 
   public RandomPattern(LX lx) {

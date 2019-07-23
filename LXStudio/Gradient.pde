@@ -62,8 +62,8 @@ public static class Gradient {
       }
       i *= 255.0;
       double f = i % 1;
-      LXFloat4 a = colors.get((int)(i));
-      LXFloat4 b = colors.get((int)(i+1));
+      LXFloat4 a = colors.get((int)(i)&0xFF);
+      LXFloat4 b = colors.get((int)(i+1)&0xFF);
       return a.lerp(b, f);
   }
   
@@ -76,8 +76,8 @@ public static class Gradient {
       }
       i *= 255.0;
       double f = i % 1;
-      LXFloat4 a = colors.get((int)(i));
-      LXFloat4 b = colors.get((int)(i+1));
+      LXFloat4 a = colors.get((int)(i)&0xFF);
+      LXFloat4 b = colors.get((int)(i+1)&0xFF);
       return a.lerp(b, f);
   }
 
