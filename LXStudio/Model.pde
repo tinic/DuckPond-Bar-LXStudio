@@ -7,31 +7,37 @@ public static class Umbrella  extends BarFixture {
   private Gradient rainbowGradient;
   private Gradient rainyGradient;
   private Gradient autumGradient;
+  private Gradient winterGradient;
   
   public LXFloat4 calc(BarPattern.Effect effect, int index, double time, LXFloat4 glob_pos) { 
       switch (effect) {
           case Spring: {
-            double x = Math.sin((toLocal(glob_pos).x + 1.0) * 0.25 + time * 0.05);
-            double y = Math.cos((toLocal(glob_pos).y + 1.0) * 0.25 + time * 0.05);
+            double x = Math.sin((toLocal(glob_pos).x + 1.0) * 0.25 + time * 0.050);
+            double y = Math.cos((toLocal(glob_pos).y + 1.0) * 0.25 + time * 0.055);
             double l = 1.0 - toLocal(glob_pos).len() + 0.5;
             return rainbowGradient.reflect(x * y).mul(l).clamp().gamma();
           }
           case Summer: {
-            double x0 = Math.sin((glob_pos.x + 1.0) * 0.5 + time * 0.05);
-            double y0 = Math.sin((glob_pos.y + 1.0) * 0.5 + time * 0.05);
-            double x1 = Math.sin((glob_pos.x + 1.0) * 10 + time * 0.5);
-            double y1 = Math.sin((glob_pos.y + 1.0) * 10 + time * 0.5);
+            double x0 = Math.sin((glob_pos.x + 1.0) * 0.5 + time * 0.050);
+            double y0 = Math.cos((glob_pos.y + 1.0) * 0.5 + time * 0.055);
+            double x1 = Math.sin((glob_pos.x + 1.0) * 10 + time * 0.50);
+            double y1 = Math.cos((glob_pos.y + 1.0) * 10 + time * 0.55);
             return rainbowGradient.reflect(x0 * y0).add(new LXFloat4(1.0,1.0,1.0).mul(x1 * y1).clamp()).clamp();
           } 
           case Autum: {
-            double x0 = Math.sin((glob_pos.x + 1.0) * 0.5 + time * 0.05);
-            double y0 = Math.sin((glob_pos.y + 1.0) * 0.5 + time * 0.05);
-            double x1 = Math.sin((glob_pos.x + 1.0) * 15 + time * 0.5);
-            double y1 = Math.sin((glob_pos.y + 1.0) * 15 + time * 0.5);
-            return rainyGradient.clamp(x1 * y1).add(autumGradient.clamp(x0 * y0).mul(new LXFloat4(0.5,0.5,0.5))).clamp();
+            double x0 = Math.sin((glob_pos.x + 1.0) * 0.5 + time * 0.050);
+            double y0 = Math.cos((glob_pos.y + 1.0) * 0.5 + time * 0.055);
+            double x1 = Math.sin((glob_pos.x + 1.0) * 15 + time * 0.50);
+            double y1 = Math.cos((glob_pos.y + 1.0) * 15 + time * 0.55);
+            return rainyGradient.clamp(x1 * y1).add(autumGradient.reflect(x0 * y0).mul(new LXFloat4(0.5,0.5,0.5))).clamp();
           } 
           case Winter: {
-            return glob_pos;    
+            double x0 = Math.sin((glob_pos.x + 1.0) * 0.5 + time * 0.050);
+            double y0 = Math.cos((glob_pos.y + 1.0) * 0.5 + time * 0.055);
+            double x1 = Math.sin((toLocal(glob_pos).x + 1.0) * 0.25 + time * 0.050);
+            double y1 = Math.cos((toLocal(glob_pos).y + 1.0) * 0.25 + time * 0.055);
+            double l = 1.0 - toLocal(glob_pos).len() + 0.5;
+            return winterGradient.reflect(x1 * y1).mul(l).mul(rainyGradient.reflect(x0 * y0)).clamp().gamma();
           } 
       }
       return glob_pos;    
@@ -72,6 +78,16 @@ public static class Umbrella  extends BarFixture {
     };
 
     this.autumGradient = new Gradient(autumGradient, Gradient.ColorMode.RGB);
+
+    LXFloat4[] winterGradient = {
+       new LXFloat4(0xa3eed6,0.00),
+       new LXFloat4(0xdcbcd4,0.21),
+       new LXFloat4(0xff96d0,0.39),
+       new LXFloat4(0xcb81d6,0.65),
+       new LXFloat4(0x4b51f5,1.00)
+    };
+
+    this.winterGradient = new Gradient(winterGradient, Gradient.ColorMode.RGB);
   }
 
   Umbrella(int id, String ip, double xl, double yl, double zl) {

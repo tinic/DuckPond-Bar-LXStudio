@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "timestamp": 1563907972890,
+  "timestamp": 1563908796389,
   "engine": {
     "id": 1,
     "class": "heronarts.lx.LXEngine",
@@ -70,8 +70,8 @@
             "modulationColor": -6684417,
             "parameters": {
               "label": "Bar",
-              "effect": 2,
-              "speed": 0.19999999552965164
+              "effect": 3,
+              "speed": 5.8000000938773155
             },
             "modulation": {
               "modulators": [],
