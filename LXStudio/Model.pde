@@ -37,14 +37,17 @@ public static class Umbrella  extends BarFixture {
 
     this.rainbowGradient = new Gradient(rainbowGradient, Gradient.ColorMode.HSV);
 
+    int spokes = 8;
+    int leds_per_spoke = 10;
+
     List<LXPoint> leds = new ArrayList<LXPoint>();
-    for (int p = 0; p < 10; p++) {
-      double xm = Math.sin((2.0 * Math.PI / 6.0) * p);
-      double ym = Math.cos((2.0 * Math.PI / 6.0) * p);
-      for (int q = 0; q < 10; q++) {
-        double l = 0.36666;
-        double o = 0.0333333;
-        double f = (double)(((q&1) == 1) ? (10-q) : q) / 11.0;
+    for (int p = 0; p < spokes; p++) {
+      double xm = Math.sin((2.0 * Math.PI / (double)spokes) * p);
+      double ym = Math.cos((2.0 * Math.PI / (double)spokes) * p);
+      for (int q = 0; q < leds_per_spoke; q++) {
+        double l = 0.305;
+        double o = 0.045;
+        double f = (double)(((p&1) == 1) ? (leds_per_spoke-1-q) : q) / (double)(leds_per_spoke-1);
         double x = xm * (f * l) + xm * o; 
         double y = ym * (f * l) + ym * o; 
         LXPoint pb = new LXPoint(x+xl,y+yl,zl);
