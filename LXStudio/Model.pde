@@ -3,13 +3,13 @@ import java.util.List;
 import java.util.Arrays;
 
 public static class Umbrella  extends BarFixture {
-  
+
   private Gradient rainbowGradient;
   private Gradient rainyGradient;
   private Gradient autumGradient;
   private Gradient winterGradient;
   
-  public LXFloat4 calc(BarPattern.Effect effect, int index, double time, LXFloat4 glob_pos) { 
+  public LXFloat4 calc(BarPattern.Effect effect, int LEDindex, double time, LXFloat4 glob_pos) { 
       switch (effect) {
           case Spring: {
             double x = Math.sin((toLocal(glob_pos).x + 1.0) * 0.25 + time * 0.050);
@@ -39,6 +39,11 @@ public static class Umbrella  extends BarFixture {
             double l = 1.0 - toLocal(glob_pos).len() + 0.5;
             return winterGradient.reflect(x1 * y1).mul(l).mul(rainyGradient.reflect(x0 * y0)).clamp().gamma();
           } 
+          case TestStrip: {
+              int led = (int)(time * 10.0);
+              led %= leds.size();
+             return new LXFloat4(1.0, 1.0, 1.0).mul(led == LEDindex ?  1.0 : 0.0);
+          }
       }
       return glob_pos;    
   }
@@ -97,7 +102,6 @@ public static class Umbrella  extends BarFixture {
 
     int spokes = 8;
     int leds_per_spoke = 10;
-
     List<LXPoint> leds = new ArrayList<LXPoint>();
     for (int p = 0; p < spokes; p++) {
       double xm = Math.sin((2.0 * Math.PI / (double)spokes) * p);
@@ -128,7 +132,7 @@ public static class BarTop extends BarFixture {
   private Gradient autumGradient;
   private Gradient winterGradient;
   
-  public LXFloat4 calc(BarPattern.Effect effect, int index, double time, LXFloat4 glob_pos) { 
+  public LXFloat4 calc(BarPattern.Effect effect, int LEDindex, double time, LXFloat4 glob_pos) { 
       switch (effect) {
           case Spring: {
             double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05;
@@ -146,6 +150,11 @@ public static class BarTop extends BarFixture {
             double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05;
             return winterGradient.reflect(x).clamp();
           } 
+          case TestStrip: {
+              int led = (int)(time * 10.0);
+              led %= leds.size();
+             return new LXFloat4(1.0, 1.0, 1.0).mul(led == LEDindex ?  1.0 : 0.0);
+          }
       }
       return glob_pos;    
   }
@@ -246,7 +255,7 @@ public static class BarTop extends BarFixture {
          3.048,  1.152, 3.048,  1.169, 3.048,  1.185, 3.048,  1.202, 3.048,  1.219,
     };
 
-    for (int p = 0; p < bar_leds_front.length; p+=2) {
+    for (int p = bar_leds_front.length-2; p >= 0; p-=2) {
       LXPoint pf = new LXPoint(bar_leds_front[p+0], bar_leds_front[p+1], bar_height);
       addPoint(pf);
       top_front.add(pf);
@@ -286,7 +295,7 @@ public static class BarTop extends BarFixture {
          2.883,  1.219, 2.899,  1.219, 2.916,  1.219, 2.933,  1.219, 2.949,  1.219, 2.966,  1.219, 2.983,  1.219, 2.999,  1.219, 3.016,  1.219, 3.033,  1.219, 3.033,  1.219
     };
 
-    for (int p = 0; p < bar_leds_back.length; p+=2) {
+    for (int p = bar_leds_back.length-2; p >=0 ; p-=2) {
       LXPoint pb = new LXPoint(bar_leds_back[p+0], bar_leds_back[p+1], bar_height);
       addPoint(pb);
       top_back.add(pb);

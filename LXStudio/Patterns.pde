@@ -13,6 +13,7 @@ public static class BarPattern extends LXPattern {
     Summer,
     Autum,
     Winter,
+    TestStrip,
   };
 
   public final EnumParameter<Effect> effect =
