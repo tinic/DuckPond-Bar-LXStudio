@@ -26,7 +26,6 @@ final static boolean RESIZABLE = true;
 
 void setup() {
   size(1024, 720, P3D);
-  size(1024, 720, P3D);
   lx = new heronarts.lx.studio.LXStudio(this, DuckPondBar.create(), MULTITHREADED);
   lx.ui.setResizable(RESIZABLE);
 }
