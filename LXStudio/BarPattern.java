@@ -1,11 +1,29 @@
+package org.tinic.duckpondbar;
+
 import java.util.List;
 import java.lang.Math;
 import java.util.Random;
 import java.util.Iterator;
 import java.util.Collections;
 
+import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
+
+import heronarts.lx.LXPattern;
+import heronarts.lx.model.LXPoint;
+import heronarts.lx.color.LXColor;
+import heronarts.lx.model.LXModel;
+import heronarts.lx.model.LXFixture;
+import heronarts.lx.parameter.LXParameter;
+import heronarts.lx.parameter.EnumParameter;
+import heronarts.lx.parameter.BoundedParameter;
+
+import org.tinic.duckpondbar.BarPattern;
+import org.tinic.duckpondbar.BarFixture;
+import org.tinic.duckpondbar.LXFloat4;
+
 @LXCategory("Color")
-public static class BarPattern extends LXPattern {
+public class BarPattern extends LXPattern {
   double tm = 0.0;
 
   public enum Effect {
@@ -44,19 +62,4 @@ public static class BarPattern extends LXPattern {
        } 
     }
   }  
-}
-
-@LXCategory("Color")
-public static class RandomPattern extends LXPattern {
-  Random rd = new Random(); // creating Random object
-
-  public RandomPattern(LX lx) {
-    super(lx);
-  }
-
-  public void run(double deltaMs) {
-    for (LXPoint p : model.points) {
-      colors[p.index] = LXColor.rgb((int)(rd.nextFloat()*255.0), (int)(rd.nextFloat()*255.0), (int)(rd.nextFloat()*255.0));
-    } 
-  }
 }

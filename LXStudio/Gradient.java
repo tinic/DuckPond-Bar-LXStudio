@@ -1,6 +1,11 @@
+package org.tinic.duckpondbar;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Arrays;
 
-public static class Gradient {
+public class Gradient {
 
   public enum ColorMode {
     RGB,
@@ -13,13 +18,13 @@ public static class Gradient {
     for (int c = 0; c < 256; c++) {
         double f = (double)c / 255.0; 
 
-        LXFloat4 a = stops[(int)(0)];
-        LXFloat4 b = stops[(int)(1)];
+        LXFloat4 a = stops[0];
+        LXFloat4 b = stops[1];
         if (stops.length > 2) {
           for (int d = (stops.length-2); d >= 0 ; d--) {
               if ( f >= (stops[d].w) ) {
-                a = stops[(int)(d+0)];
-                b = stops[(int)(d+1)];
+                a = stops[d+0];
+                b = stops[d+1];
                 break;
               }
           }

@@ -1,0 +1,21 @@
+<project name="DuckPondBarHeadless" default="compile" basedir=".">
+	<target name="compile">
+		<property name="ant.build.javac.source" value="1.8"/>
+		<property name="ant.build.javac.target" value="1.8"/>
+		<delete dir="./bin" />
+		<mkdir dir="./bin" />
+		<javac destdir="./bin" includeantruntime="false">
+			<src path="./" />
+			<classpath>
+				<pathelement location="./code/P3LX.jar" />
+			</classpath>
+			<compilerarg value="-Xlint"/>
+		</javac>
+		<jar jarfile="./bin/DuckPondBarHeadless.jar" basedir="./bin">
+			<zipgroupfileset dir="./code" includes="P3LX.jar" />
+			<manifest>
+				<attribute name="Main-Class" value="org.tinic.duckpondbar.DuckPondBarHeadless"/>
+			</manifest>
+		</jar>
+	</target>
+</project>

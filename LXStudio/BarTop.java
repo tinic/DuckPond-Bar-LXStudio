@@ -1,131 +1,16 @@
+package org.tinic.duckpondbar;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Arrays;
 
-public static class Umbrella  extends BarFixture {
+import heronarts.lx.model.LXPoint;
 
-  private Gradient rainbowGradient;
-  private Gradient rainyGradient;
-  private Gradient autumGradient;
-  private Gradient winterGradient;
-  
-  public LXFloat4 calc(BarPattern.Effect effect, int LEDindex, double time, LXFloat4 glob_pos) { 
-      switch (effect) {
-          case Spring: {
-            double x = Math.sin((toLocal(glob_pos).x + 1.0) * 0.25 + time * 0.050);
-            double y = Math.cos((toLocal(glob_pos).y + 1.0) * 0.25 + time * 0.055);
-            double l = 1.0 - toLocal(glob_pos).len() + 0.5;
-            return rainbowGradient.reflect(x * y).mul(l).clamp().gamma();
-          }
-          case Summer: {
-            double x0 = Math.sin((glob_pos.x + 1.0) * 0.5 + time * 0.050);
-            double y0 = Math.cos((glob_pos.y + 1.0) * 0.5 + time * 0.055);
-            double x1 = Math.sin((glob_pos.x + 1.0) * 10 + time * 0.50);
-            double y1 = Math.cos((glob_pos.y + 1.0) * 10 + time * 0.55);
-            return rainbowGradient.reflect(x0 * y0).add(new LXFloat4(1.0,1.0,1.0).mul(x1 * y1).clamp()).clamp();
-          } 
-          case Autum: {
-            double x0 = Math.sin((glob_pos.x + 1.0) * 0.5 + time * 0.050);
-            double y0 = Math.cos((glob_pos.y + 1.0) * 0.5 + time * 0.055);
-            double x1 = Math.sin((glob_pos.x + 1.0) * 15 + time * 0.50);
-            double y1 = Math.cos((glob_pos.y + 1.0) * 15 + time * 0.55);
-            return rainyGradient.clamp(x1 * y1).add(autumGradient.reflect(x0 * y0).mul(new LXFloat4(0.5,0.5,0.5))).clamp();
-          } 
-          case Winter: {
-            double x0 = Math.sin((glob_pos.x + 1.0) * 0.5 + time * 0.050);
-            double y0 = Math.cos((glob_pos.y + 1.0) * 0.5 + time * 0.055);
-            double x1 = Math.sin((toLocal(glob_pos).x + 1.0) * 0.25 + time * 0.050);
-            double y1 = Math.cos((toLocal(glob_pos).y + 1.0) * 0.25 + time * 0.055);
-            double l = 1.0 - toLocal(glob_pos).len() + 0.5;
-            return winterGradient.reflect(x1 * y1).mul(l).mul(rainyGradient.reflect(x0 * y0)).clamp().gamma();
-          } 
-          case TestStrip: {
-              int led = (int)(time * 10.0);
-              led %= leds.size();
-             return new LXFloat4(1.0, 1.0, 1.0).mul(led == LEDindex ?  1.0 : 0.0);
-          }
-      }
-      return glob_pos;    
-  }
+import org.tinic.duckpondbar.BarPattern;
+import org.tinic.duckpondbar.BarFixture;
 
-  public void initGradients() {
-    
-    //
-    // Go https://cssgradient.io/ to create gradients the easiest way
-    //
-
-    LXFloat4[] rainbowGradient = {
-       new LXFloat4(0.0, 1.0, 1.0, 0.00),
-       new LXFloat4(1.0, 1.0, 1.0, 1.00)
-    };
-
-    this.rainbowGradient = new Gradient(rainbowGradient, Gradient.ColorMode.HSV);
-
-    LXFloat4[] rainyGradient = {
-       new LXFloat4(0x000000, 0.00),
-       new LXFloat4(0x413a40, 0.20),
-       new LXFloat4(0x65718a, 0.40),
-       new LXFloat4(0x6985b9, 0.53),
-       new LXFloat4(0xffffff, 1.00)
-    };
-
-    this.rainyGradient = new Gradient(rainyGradient, Gradient.ColorMode.RGB);
-
-    LXFloat4[] autumGradient = {
-       new LXFloat4(0x000000, 0.00),
-       new LXFloat4(0x351e10, 0.13),
-       new LXFloat4(0x58321a, 0.25),
-       new LXFloat4(0x60201e, 0.41),
-       new LXFloat4(0x651420, 0.56),
-       new LXFloat4(0x7b5a54, 0.70),
-       new LXFloat4(0x9abf9e, 0.83),
-       new LXFloat4(0xffffff, 1.00)
-    };
-
-    this.autumGradient = new Gradient(autumGradient, Gradient.ColorMode.RGB);
-
-    LXFloat4[] winterGradient = {
-       new LXFloat4(0xa3eed6,0.00),
-       new LXFloat4(0xdcbcd4,0.21),
-       new LXFloat4(0xff96d0,0.39),
-       new LXFloat4(0xcb81d6,0.65),
-       new LXFloat4(0x4b51f5,1.00)
-    };
-
-    this.winterGradient = new Gradient(winterGradient, Gradient.ColorMode.RGB);
-  }
-
-  Umbrella(int id, String ip, double xl, double yl, double zl) {
-    super(ip);
-
-    initGradients();
-
-    int spokes = 8;
-    int leds_per_spoke = 10;
-    List<LXPoint> leds = new ArrayList<LXPoint>();
-    for (int p = 0; p < spokes; p++) {
-      double xm = Math.sin((2.0 * Math.PI / (double)spokes) * p);
-      double ym = Math.cos((2.0 * Math.PI / (double)spokes) * p);
-      for (int q = 0; q < leds_per_spoke; q++) {
-        double l = 0.305;
-        double o = 0.045;
-        double f = (double)(((p&1) == 1) ? (leds_per_spoke-1-q) : q) / (double)(leds_per_spoke-1);
-        double x = xm * (f * l) + xm * o; 
-        double y = ym * (f * l) + ym * o; 
-        LXPoint pb = new LXPoint(x+xl,y+yl,zl);
-        addPoint(pb);
-        leds.add(pb);
-      }
-    }
-    
-    this.id = id;
-    this.leds = Collections.unmodifiableList(leds);
-  }
-
-  public final int id;
-};
-
-public static class BarTop extends BarFixture {
+public class BarTop extends BarFixture {
   
   private Gradient springGradient;
   private Gradient summerGradient;
@@ -216,10 +101,10 @@ public static class BarTop extends BarFixture {
     
     List<LXPoint> leds = new ArrayList<LXPoint>();
 
-    float bar_height = 1.0;
+    double bar_height = 1.0;
 
     // bar top, all values in m
-    float[] bar_leds_front = {
+    double[] bar_leds_front = {
         -3.047,  1.828,-3.047,  1.812,-3.047,  1.795,-3.047,  1.778,-3.047,  1.761,-3.047,  1.745,-3.047,  1.728,-3.047,  1.711,-3.047,  1.695,-3.047,  1.678,-3.047,  1.661,-3.047,  1.645,-3.047,  1.628,-3.047,  1.611,-3.047,  1.594,-3.047,  1.578,
         -3.047,  1.561,-3.047,  1.544,-3.047,  1.528,-3.047,  1.511,-3.047,  1.494,-3.047,  1.477,-3.047,  1.461,-3.047,  1.444,-3.047,  1.427,-3.047,  1.411,-3.047,  1.394,-3.047,  1.377,-3.047,   1.36,-3.047,  1.344,-3.047,  1.327,-3.047,   1.31,
         -3.047,  1.294,-3.047,  1.277,-3.047,   1.26,-3.047,  1.244,-3.047,  1.227,-3.047,   1.21,-3.047,  1.193,-3.047,  1.177,-3.047,   1.16,-3.047,  1.143,-3.047,  1.127,-3.047,   1.11,-3.047,  1.093,-3.047,  1.076,-3.047,   1.06,-3.047,  1.043,
@@ -262,7 +147,7 @@ public static class BarTop extends BarFixture {
       leds.add(pf);
     }
 
-    float[] bar_leds_back = {
+    double[] bar_leds_back = {
         -3.038,  1.828,-3.021,  1.828,-3.004,  1.828,-2.988,  1.828,-2.971,  1.828,-2.954,  1.828,-2.938,  1.828,-2.921,  1.828,-2.904,  1.828,-2.887,  1.828,-2.871,  1.828,-2.854,  1.828,-2.837,  1.828,-2.821,  1.828,-2.804,  1.828,-2.787,  1.828,
         -2.770,  1.828,-2.754,  1.828,-2.737,  1.828, -2.72,  1.828,-2.704,  1.828,-2.687,  1.828, -2.67,  1.828,-2.654,  1.828,-2.637,  1.828, -2.62,  1.828,-2.603,  1.828,-2.587,  1.828, -2.57,  1.828,-2.553,  1.828,-2.537,  1.828, -2.52,  1.828,
         -2.503,  1.828,-2.487,  1.828, -2.47,  1.828,-2.453,  1.828,-2.436,  1.828,-2.433,  1.815,-2.433,  1.799,-2.433,  1.782,-2.433,  1.765,-2.433,  1.749,-2.433,  1.732,-2.433,  1.715,-2.433,  1.699,-2.433,  1.682,-2.433,  1.665,-2.433,  1.648,
@@ -309,147 +194,4 @@ public static class BarTop extends BarFixture {
 
   public final List<LXPoint> top_front;
   public final List<LXPoint> top_back;
-}
-
-public static class BarFixture  extends LXAbstractFixture {
-  
-  List<LXPoint> leds;
-  
-  BarFixture(String ip) {
-    this.ip = ip;
-    boundsValid = false;
-    centerValid = false;
-    sizeValid = false;
-    factorValid = false;
-  }
-
-  public LXFloat4 calc(BarPattern.Effect effect, int index, double time, LXFloat4 glob_pos) { 
-      return glob_pos.clamp().gamma();
-  }
-  
-  public void calcBounds() {
-    if (boundsValid) {
-        return;
-    }
-
-    min = new LXFloat4(+1000.0, +1000.0, +1000.0, 0.0);
-    max = new LXFloat4(-1000.0, -1000.0, -1000.0, 0.0);
-    
-    for (int c=0; c<leds.size(); c++) {
-        min = min.min(new LXFloat4(leds.get(c)));
-        max = max.max(new LXFloat4(leds.get(c)));
-    }
-    
-    boundsValid = true;
-  }
-
-  public LXFloat4 center() {
-    if (centerValid) {
-        return this.center;
-    }
-
-    calcBounds();
-    this.center = new LXFloat4(
-      (max.x + min.x) * 0.5, 
-      (max.y + min.y) * 0.5, 
-      (max.z + min.z) * 0.5);
-      
-    centerValid = true;
-
-    return this.center;
-  }
-  
-  public LXFloat4 size() {
-    if (sizeValid) {
-        return this.size;
-    }
-
-    calcBounds();
-    this.size = new LXFloat4(max.x - min.x, max.y - min.y, max.z - min.z);
-    sizeValid = true;
-    return this.size;
-  }
-  
-  public LXFloat4 normalize(LXFloat4 pos) {
-    if (factorValid) {
-      return new LXFloat4(pos.x * this.factor.x,  pos.y * this.factor.y, pos.z * this.factor.z);
-    }
-    LXFloat4 size = size();
-    double xf = 1.0;
-    double yf = 1.0;
-    double zf = 1.0;
-    if (size.x != 0) xf = 2.0 / size.x;
-    if (size.y != 0) yf = 2.0 / size.y;
-    if (size.z != 0) zf = 2.0 / size.z;
-    this.factor = new LXFloat4(xf, yf, zf);
-    factorValid = true;
-    return new LXFloat4(pos.x * this.factor.x,  pos.y * this.factor.y, pos.z * this.factor.z);
-  }
-  
-  public LXFloat4 toLocal(LXFloat4 pos) {
-      LXFloat4 center = center();
-      return normalize(new LXFloat4(
-        pos.x - center.x,
-        pos.y - center.y,
-        pos.z - center.z));
-  }
-
-  public final String ip;
-  
-  private boolean boundsValid;
-  private LXFloat4 min;
-  private LXFloat4 max;
-  private boolean centerValid;
-  private LXFloat4 center;
-  private boolean sizeValid;
-  private LXFloat4 size;
-  private boolean factorValid;
-  private LXFloat4 factor;
-}
-
-public static class DuckPondBar extends LXModel {
-
-  static DuckPondBar create() {
-
-    LXFixture fixtures[] = {
-
-      new BarTop("10.42.0.2"),
-      
-      new Umbrella(0, "10.42.0.10", -1.600, -0.500 + 1.000, 3.0000),
-      new Umbrella(1, "10.42.0.11", -1.200,  0.500 + 1.000, 3.0000),
-      new Umbrella(2, "10.42.0.12", -0.800, -0.500 + 1.000, 3.0000),
-      new Umbrella(3, "10.42.0.13", -0.400,  0.500 + 1.000, 3.0000),
-      new Umbrella(4, "10.42.0.14", -0.000, -0.500 + 1.000, 3.0000),
-      new Umbrella(5, "10.42.0.15",  0.400,  0.500 + 1.000, 3.0000),
-      new Umbrella(6, "10.42.0.16",  0.800, -0.500 + 1.000, 3.0000),
-      new Umbrella(7, "10.42.0.17",  1.200,  0.500 + 1.000, 3.0000),
-      new Umbrella(8, "10.42.0.18",  1.600, -0.500 + 1.000, 3.0000)
-      
-    };
-    
-    return new DuckPondBar(fixtures);
-  }
-  
-  BarTop barTop() {
-      LXFixture fixture = this.fixtures.get(0);
-      return (BarTop)fixture;
-  }
-  
-  List<Umbrella> umbrellas() {
-      ArrayList<Umbrella> umbrellas = new ArrayList<Umbrella>();
-      for (int c = 0; c < 9; c++) {
-          LXFixture fixture = this.fixtures.get(c+1);
-          umbrellas.add((Umbrella)fixture);
-      }
-      return umbrellas;
-  }
-  
-  private DuckPondBar(LXFixture[] fixtures) {
-    super(fixtures);
-  }
-  
-}
-
-LXModel buildModel() {
-  return DuckPondBar.create();
 }

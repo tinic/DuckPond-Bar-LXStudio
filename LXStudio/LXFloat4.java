@@ -1,10 +1,13 @@
+package org.tinic.duckpondbar;
 
-public static class LXFloat4 {
+import heronarts.lx.model.LXPoint;
+
+public class LXFloat4 {
   
-    double x = 0.0;
-    double y = 0.0;
-    double z = 0.0;
-    double w = 1.0;
+    public double x = 0.0;
+    public double y = 0.0;
+    public double z = 0.0;
+    public double w = 1.0;
   
     public LXFloat4() { 
     }
