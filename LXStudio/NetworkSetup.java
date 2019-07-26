@@ -46,11 +46,12 @@ public class NetworkSetup {
       LXDatagramOutput output = new LXDatagramOutput(lx);
   
       BarTop bar = ((DuckPondBar)lx.model).barTop();
-  
-      // Port A
-      addDatagram(output, 0, getIndices(bar.top_front), bar.ip);
-      // Port B
-      addDatagram(output, 4, getIndices(bar.top_back), bar.ip);
+      if (bar != null) {
+        // Port A
+        addDatagram(output, 0, getIndices(bar.top_front), bar.ip);
+        // Port B
+        addDatagram(output, 4, getIndices(bar.top_back), bar.ip);
+      }
       
       List<Umbrella> umbrellas = ((DuckPondBar)lx.model).umbrellas();
       for (int u = 0 ; u < umbrellas.size(); u++) {

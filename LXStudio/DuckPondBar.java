@@ -32,15 +32,22 @@ public class DuckPondBar extends LXModel {
   }
   
   BarTop barTop() {
-      LXFixture fixture = this.fixtures.get(0);
-      return (BarTop)fixture;
+    for (int c = 0; c < this.fixtures.size(); c++) {
+      LXFixture fixture = this.fixtures.get(c);
+      if (fixture instanceof BarTop) {
+        return (BarTop)fixture;
+      }
+    }
+    return null;
   }
   
   List<Umbrella> umbrellas() {
       ArrayList<Umbrella> umbrellas = new ArrayList<Umbrella>();
-      for (int c = 0; c < 9; c++) {
-          LXFixture fixture = this.fixtures.get(c+1);
-          umbrellas.add((Umbrella)fixture);
+      for (int c = 0; c < this.fixtures.size(); c++) {
+          LXFixture fixture = this.fixtures.get(c);
+          if (fixture instanceof Umbrella) {
+            umbrellas.add((Umbrella)fixture);
+          }
       }
       return umbrellas;
   }
