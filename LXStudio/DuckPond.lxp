@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "timestamp": 1563910256084,
+  "timestamp": 1564169670807,
   "engine": {
     "id": 1,
     "class": "heronarts.lx.LXEngine",
@@ -12,7 +12,7 @@
       "scene-3": false,
       "scene-4": false,
       "scene-5": false,
-      "crossfader": 0.5862068943679333,
+      "crossfader": 0.5344827603548765,
       "crossfaderBlendMode": 0,
       "speed": 1.0,
       "focusedChannel": 0,
@@ -32,7 +32,7 @@
         "hueMode": 0,
         "color/brightness": 100.0,
         "color/saturation": 100.0,
-        "color/hue": 0.0,
+        "color/hue": 3.442688268147015,
         "period": 120000.0,
         "range": 10.0
       }
@@ -45,7 +45,7 @@
         "parameters": {
           "label": "Channel-1",
           "arm": false,
-          "selected": true,
+          "selected": false,
           "enabled": true,
           "cue": false,
           "fader": 1.0,
@@ -53,25 +53,73 @@
           "blendMode": 4,
           "midiMonitor": false,
           "midiChannel": 16,
-          "autoCycleEnabled": false,
+          "autoCycleEnabled": true,
           "autoCycleMode": 0,
           "autoCycleTimeSecs": 60.0,
-          "transitionEnabled": false,
-          "transitionTimeSecs": 5.0,
+          "transitionEnabled": true,
+          "transitionTimeSecs": 10.0,
           "transitionBlendMode": 0
         },
         "effects": [],
         "clips": [],
-        "patternIndex": 0,
+        "patternIndex": 3,
         "patterns": [
           {
-            "id": 96,
+            "id": 169,
             "class": "org.tinic.duckpondbar.BarPattern",
-            "modulationColor": -6684417,
+            "modulationColor": -16711720,
+            "parameters": {
+              "label": "Bar",
+              "effect": 0,
+              "speed": 2.2351741790771484E-7
+            },
+            "modulation": {
+              "modulators": [],
+              "modulations": [],
+              "triggers": []
+            },
+            "autoCycleEnabled": true
+          },
+          {
+            "id": 237,
+            "class": "org.tinic.duckpondbar.BarPattern",
+            "modulationColor": -16722433,
+            "parameters": {
+              "label": "Bar",
+              "effect": 1,
+              "speed": 0.0
+            },
+            "modulation": {
+              "modulators": [],
+              "modulations": [],
+              "triggers": []
+            },
+            "autoCycleEnabled": true
+          },
+          {
+            "id": 239,
+            "class": "org.tinic.duckpondbar.BarPattern",
+            "modulationColor": -59136,
+            "parameters": {
+              "label": "Bar",
+              "effect": 2,
+              "speed": 0.0
+            },
+            "modulation": {
+              "modulators": [],
+              "modulations": [],
+              "triggers": []
+            },
+            "autoCycleEnabled": true
+          },
+          {
+            "id": 241,
+            "class": "org.tinic.duckpondbar.BarPattern",
+            "modulationColor": -16721409,
             "parameters": {
               "label": "Bar",
               "effect": 3,
-              "speed": 5.8000000938773155
+              "speed": 0.0
             },
             "modulation": {
               "modulators": [],
@@ -90,7 +138,7 @@
       "parameters": {
         "label": "Master",
         "arm": false,
-        "selected": false
+        "selected": true
       },
       "effects": [],
       "clips": []
@@ -118,7 +166,7 @@
       "modulationColor": -4608,
       "parameters": {
         "label": "Audio",
-        "enabled": false,
+        "enabled": true,
         "mode": 0
       },
       "meter": {
@@ -127,7 +175,7 @@
         "modulationColor": -23296,
         "parameters": {
           "label": "Meter",
-          "running": false,
+          "running": true,
           "trigger": false,
           "gain": 0.0,
           "range": 48.0,
@@ -216,9 +264,9 @@
   },
   "externals": {
     "ui": {
-      "audioExpanded": true,
-      "paletteExpanded": true,
-      "cameraExpanded": true,
+      "audioExpanded": false,
+      "paletteExpanded": false,
+      "cameraExpanded": false,
       "clipViewVisible": false,
       "modulatorExpanded": {},
       "preview": {
@@ -231,41 +279,41 @@
         "phiLock": true,
         "centerPoint": false,
         "camera": {
-          "active": false,
+          "active": true,
           "radius": 4.070329159515305,
-          "theta": 3.1349999999999976,
-          "phi": -0.8640000000000005,
+          "theta": 3.116999999999996,
+          "phi": -0.8790000000000052,
           "x": 5.002021789550781E-4,
           "y": 0.9333302974700928,
           "z": 2.0
         },
         "cue": [
           {
-            "active": false,
+            "active": true,
             "radius": 4.070329159515305,
-            "theta": 3.1349999999999976,
-            "phi": -0.8640000000000005,
+            "theta": 3.116999999999996,
+            "phi": -0.8790000000000052,
             "x": 5.002021789550781E-4,
             "y": 0.9333302974700928,
             "z": 2.0
           },
           {
             "active": false,
-            "radius": 120.0,
-            "theta": 0.0,
-            "phi": 0.0,
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
+            "radius": 4.070329159515305,
+            "theta": 3.1559999999999975,
+            "phi": -0.9180000000000053,
+            "x": 5.002021789550781E-4,
+            "y": 0.9333302974700928,
+            "z": 2.0
           },
           {
             "active": false,
-            "radius": 120.0,
-            "theta": 0.0,
-            "phi": 0.0,
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
+            "radius": 4.070329159515305,
+            "theta": 3.1559999999999975,
+            "phi": -0.9180000000000053,
+            "x": 5.002021789550781E-4,
+            "y": 0.9333302974700928,
+            "z": 2.0
           },
           {
             "active": false,
