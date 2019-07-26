@@ -15,7 +15,14 @@ public class DuckPondBar extends LXModel {
     LXFixture fixtures[] = {
 
       new BarTop("10.42.0.2"),
-      
+
+      //
+      // Physical layout:
+      //
+      //     11    13    15    17
+      //  10    12    14    16    18
+      //
+
       new Umbrella(0, "10.42.0.10", -1.600, -0.500 + 1.000, 3.0000),
       new Umbrella(1, "10.42.0.11", -1.200,  0.500 + 1.000, 3.0000),
       new Umbrella(2, "10.42.0.12", -0.800, -0.500 + 1.000, 3.0000),
@@ -25,7 +32,6 @@ public class DuckPondBar extends LXModel {
       new Umbrella(6, "10.42.0.16",  0.800, -0.500 + 1.000, 3.0000),
       new Umbrella(7, "10.42.0.17",  1.200,  0.500 + 1.000, 3.0000),
       new Umbrella(8, "10.42.0.18",  1.600, -0.500 + 1.000, 3.0000)
-      
     };
     
     return new DuckPondBar(fixtures);
