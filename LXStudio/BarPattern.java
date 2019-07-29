@@ -22,7 +22,7 @@ import org.tinic.duckpondbar.BarPattern;
 import org.tinic.duckpondbar.BarFixture;
 import org.tinic.duckpondbar.LXFloat4;
 
-@LXCategory("Color")
+@LXCategory("DuckPond")
 public class BarPattern extends LXPattern {
   double tm = 0.0;
 
