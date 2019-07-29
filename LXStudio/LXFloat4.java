@@ -197,10 +197,26 @@ public class LXFloat4 {
     
     static public LXFloat4 zero() {
         return new LXFloat4(
-          0,
-          0,
-          0,
-          0);
+          0.0,
+          0.0,
+          0.0,
+          0.0);
+    }
+
+    static public LXFloat4 one() {
+        return new LXFloat4(
+          1.0,
+          1.0,
+          1.0,
+          1.0);
+    }
+
+    static public LXFloat4 half() {
+        return new LXFloat4(
+          0.5,
+          0.5,
+          0.5,
+          0.5);
     }
 
     public LXFloat4 min(LXFloat4 b) {
@@ -249,6 +265,82 @@ public class LXFloat4 {
           Math.abs(a.y),
           Math.abs(a.z),
           Math.abs(a.w));
+    }
+    
+    public LXFloat4 rcp() {
+        return new LXFloat4(
+          1.0/this.x,
+          1.0/this.y,
+          1.0/this.z,
+          1.0/this.w);
+    }
+
+    static public LXFloat4 rcp(LXFloat4 a) {
+        return new LXFloat4(
+          1.0/a.x,
+          1.0/a.y,
+          1.0/a.z,
+          1.0/a.w);
+    }
+
+    public LXFloat4 rsqrt() {
+        return new LXFloat4(
+          1.0/Math.sqrt(this.x),
+          1.0/Math.sqrt(this.y),
+          1.0/Math.sqrt(this.z),
+          1.0/Math.sqrt(this.w));
+    }
+
+    static public LXFloat4 rsqrt(LXFloat4 a) {
+        return new LXFloat4(
+          1.0/Math.sqrt(a.x),
+          1.0/Math.sqrt(a.y),
+          1.0/Math.sqrt(a.z),
+          1.0/Math.sqrt(a.w));
+    }
+    
+    public boolean isZero() {
+    	return (this.x == 0.0 &&
+    	 	    this.y == 0.0 &&
+    	 	    this.z == 0.0 &&
+    	 	    this.w == 0.0);
+    }
+
+    static public boolean isZero(LXFloat4 a) {
+    	return (a.x == 0.0 &&
+    	 	    a.y == 0.0 &&
+    	 	    a.z == 0.0 &&
+    	 	    a.w == 0.0);
+    }
+
+    public boolean hasZero() {
+    	return (this.x == 0.0 ||
+    	 	    this.y == 0.0 ||
+    	 	    this.z == 0.0 ||
+    	 	    this.w == 0.0);
+    }
+
+    static public boolean hasZero(LXFloat4 a) {
+    	return (a.x == 0.0 ||
+    	 	    a.y == 0.0 ||
+    	 	    a.z == 0.0 ||
+    	 	    a.w == 0.0);
+    }
+
+    public LXFloat4 neg() {
+        return new LXFloat4(
+          -this.x,
+          -this.y,
+          -this.z,
+          -this.w);
+    }
+
+    static public LXFloat4 neg(LXFloat4 a) {
+        return new LXFloat4(
+          -a.x,
+          -a.y,
+          -a.z,
+          -a.w);
     }
 
     public LXFloat4 clamp() {
