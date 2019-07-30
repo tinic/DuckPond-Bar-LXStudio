@@ -120,7 +120,7 @@ public class Umbrella  extends BarFixture {
         double f = (double)(((p&1) == 1) ? (leds_per_spoke-1-q) : q) / (double)(leds_per_spoke-1);
         double x = xm * (f * l) + xm * o; 
         double y = ym * (f * l) + ym * o; 
-        LXPoint pb = new LXPoint(x+xl,y+yl,zl);
+        LXPoint pb = new LXPoint(x-xl,y+yl,zl);
         addPoint(pb);
         leds.add(pb);
       }

@@ -50,7 +50,7 @@ public class BarPattern extends LXPattern {
   }
 
   public void run(double deltaMs) {
-    double tm_factor = Math.pow(1024,speed.getNormalized() - 0.5);
+	double tm_factor = Math.pow(1024,speed.getNormalized() - 0.5);
     tm += ( deltaMs * (1.0 / 1000.0) ) * tm_factor;
     for (LXFixture fixture : model.fixtures) {
        BarFixture barFixture = (BarFixture)fixture;

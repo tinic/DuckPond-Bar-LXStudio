@@ -141,7 +141,7 @@ public class BarTop extends BarFixture {
     };
 
     for (int p = bar_leds_front.length-2; p >= 0; p-=2) {
-      LXPoint pf = new LXPoint(bar_leds_front[p+0], bar_leds_front[p+1], bar_height);
+      LXPoint pf = new LXPoint(-bar_leds_front[p+0], bar_leds_front[p+1], bar_height);
       addPoint(pf);
       top_front.add(pf);
       leds.add(pf);
@@ -181,7 +181,7 @@ public class BarTop extends BarFixture {
     };
 
     for (int p = bar_leds_back.length-2; p >=0 ; p-=2) {
-      LXPoint pb = new LXPoint(bar_leds_back[p+0], bar_leds_back[p+1], bar_height);
+      LXPoint pb = new LXPoint(-bar_leds_back[p+0], bar_leds_back[p+1], bar_height);
       addPoint(pb);
       top_back.add(pb);
       leds.add(pb);
