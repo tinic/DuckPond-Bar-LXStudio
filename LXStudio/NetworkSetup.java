@@ -42,7 +42,7 @@ public class NetworkSetup {
   }
 
   public static void setup(LX lx) {
-/*    try {
+    try {
       LXDatagramOutput output = new LXDatagramOutput(lx);
   
       BarTop bar = ((DuckPondBar)lx.model).barTop();
@@ -66,6 +66,6 @@ public class NetworkSetup {
       lx.addOutput(output);
     } catch (Exception x) {
       x.printStackTrace();
-    }*/
+    }
   }
 }
