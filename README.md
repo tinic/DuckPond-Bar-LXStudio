@@ -1,3 +1,5 @@
+DuckPond Bar 2019 LED decoration project. 11 LED decorated umbrellas and 20ft of bar tops with embedded WS2915 LEDs. ~2000 LEDs in total.
+
 LX Studio
 ==
 
