@@ -25,7 +25,7 @@ package org.tinic.duckpondbar;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Arrays; //<>//
+import java.util.Arrays;
 
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
@@ -47,7 +47,7 @@ public class NetworkSetup {
         int total = indices.length;
         int start = 0;
         while (total > 0) {
-          int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170));
+          int[] split = Arrays.copyOfRange(indices, start, start + Math.min(total, 170)); //<>//
           ArtNetDatagram datagram = new ArtNetDatagram(split);
           datagram.setAddress(address);
           datagram.setByteOrder(LXDatagram.ByteOrder.RGB);  
