@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "timestamp": 1565814718657,
+  "timestamp": 1565823806701,
   "engine": {
     "id": 1,
     "class": "heronarts.lx.LXEngine",
@@ -55,14 +55,14 @@
           "midiChannel": 16,
           "autoCycleEnabled": true,
           "autoCycleMode": 0,
-          "autoCycleTimeSecs": 600.0,
+          "autoCycleTimeSecs": 537.0,
           "transitionEnabled": true,
           "transitionTimeSecs": 20.0,
           "transitionBlendMode": 0
         },
         "effects": [],
         "clips": [],
-        "patternIndex": 5,
+        "patternIndex": 6,
         "patterns": [
           {
             "id": 241,
@@ -86,7 +86,7 @@
             "modulationColor": -1114368,
             "parameters": {
               "label": "Bar",
-              "effect": 1,
+              "effect": 6,
               "speed": 0.0
             },
             "modulation": {
@@ -152,6 +152,22 @@
               "label": "Bar",
               "effect": 5,
               "speed": 0.0
+            },
+            "modulation": {
+              "modulators": [],
+              "modulations": [],
+              "triggers": []
+            },
+            "autoCycleEnabled": true
+          },
+          {
+            "id": 295,
+            "class": "org.tinic.duckpondbar.BarPattern",
+            "modulationColor": -16764673,
+            "parameters": {
+              "label": "Bar",
+              "effect": 1,
+              "speed": 2.2351741790771484E-7
             },
             "modulation": {
               "modulators": [],

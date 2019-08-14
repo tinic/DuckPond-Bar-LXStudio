@@ -19,6 +19,7 @@ public class Umbrella  extends BarFixture {
   private Gradient winterGradient;
   private Gradient happyGradient;
   private Gradient eveningGradient;
+  private Gradient desertDream;
   
   public LXFloat4 calc(BarPattern.Effect effect, int LEDindex, double time, LXFloat4 glob_pos) { 
       switch (effect) {
@@ -54,7 +55,7 @@ public class Umbrella  extends BarFixture {
             double b = (Math.sin(glob_pos.x * 4.0 + time * 0.20) + Math.cos(glob_pos.y * 4.0 + time * 0.20)) * 0.25;
             LXFloat4 pos = glob_pos.rotate2d(time * 0.20).add(new LXFloat4(time * 0.20, 0.0, 0.0, 0.0)).mul(0.05);
             return rainbowGradientBright.repeat(pos.x).add(new LXFloat4(b,b,b,b)).clamp().gamma();
-          } 
+          }
           case SunsetSunrise: {
             double a = Math.max(0.0, Math.cos(glob_pos.x + Math.sin(time * 0.10))+Math.sin(glob_pos.y + Math.cos(time* 0.10))-1.0);
             LXFloat4 pos = glob_pos.rotate2d(time * 0.30).add(new LXFloat4(time * 0.30, 0.0, 0.0, 0.0)).mul(0.05);
@@ -63,6 +64,14 @@ public class Umbrella  extends BarFixture {
             LXFloat4 c1 = eveningGradient.clamp(a);
             return LXFloat4.lerp(c0, c1, a);
           }
+          case DesertDream: {
+            double x0 = Math.sin((glob_pos.x + 1.0) * 0.5 + time * 0.050);
+            double y0 = Math.cos((glob_pos.y + 1.0) * 0.5 + time * 0.055);
+            double x1 = Math.sin((toLocal(glob_pos).x + 1.0) * 0.25 + time * 0.050);
+            double y1 = Math.cos((toLocal(glob_pos).y + 1.0) * 0.25 + time * 0.055);
+            double l = 1.0 - toLocal(glob_pos).len() + 0.5;
+            return desertDream.reflect(x1 * y1).mul(l).add(desertDream.reflect(x0 * y0)).clamp().gamma();
+          } 
           case TestStrip: {
               int led = (int)(time * 10.0);
               led %= leds.size();
@@ -155,7 +164,18 @@ public class Umbrella  extends BarFixture {
     };
 
     this.eveningGradient = new Gradient(eveningGradient, Gradient.ColorMode.RGB);
-}
+
+    LXFloat4[] desertDream = {
+       new LXFloat4(0x4d5951,0.00),
+       new LXFloat4(0x372a25,0.19),
+       new LXFloat4(0x863c25,0.41),
+       new LXFloat4(0xa15123,0.63),
+       new LXFloat4(0xd6aa68,0.84),
+       new LXFloat4(0xf7d6b4,1.00)
+    };
+
+    this.desertDream = new Gradient(desertDream, Gradient.ColorMode.RGB);
+  }
 
   Umbrella(int id, String ip, double xl, double yl, double zl) {
     super(ip);

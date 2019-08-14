@@ -19,6 +19,7 @@ public class BarTop extends BarFixture {
   private Gradient rainbowGradient;
   private Gradient rainbowGradientBright;
   private Gradient happyGradient;
+  private Gradient desertDream;
 
   public LXFloat4 calc(BarPattern.Effect effect, int LEDindex, double time, LXFloat4 glob_pos) { 
       switch (effect) {
@@ -45,6 +46,10 @@ public class BarTop extends BarFixture {
           case SunsetSunrise: {
             double x = ((toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05) * 0.25;
             return happyGradient.reflect(x).clamp();
+          } 
+          case DesertDream: {
+            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05;
+            return desertDream.reflect(x).clamp();
           } 
           case TestStrip: {
               int led = (int)(time * 10.0);
@@ -135,6 +140,17 @@ public class BarTop extends BarFixture {
       };
   
       this.happyGradient = new Gradient(happyGradient, Gradient.ColorMode.RGB);
+
+      LXFloat4[] desertDream = {
+         new LXFloat4(0x4d5951,0.00),
+         new LXFloat4(0x372a25,0.19),
+         new LXFloat4(0x863c25,0.41),
+         new LXFloat4(0xa15123,0.63),
+         new LXFloat4(0xd6aa68,0.84),
+         new LXFloat4(0xf7d6b4,1.00)
+      };
+  
+      this.desertDream = new Gradient(desertDream, Gradient.ColorMode.RGB);
   }
 
   BarTop(String ip) {
