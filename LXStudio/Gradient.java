@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Arrays;
 
 public class Gradient {
+  
+  static final int gradient_points = 256;
+  static final int gradient_points_mask = 0xFF;
+  static final double gradient_points_mod = 255.0;
 
   public enum ColorMode {
     RGB,
@@ -15,8 +19,8 @@ public class Gradient {
   Gradient(LXFloat4[] stops, ColorMode mode) {
     List<LXFloat4> colors = new ArrayList<LXFloat4>();
 
-    for (int c = 0; c < 256; c++) {
-        double f = (double)c / 255.0; 
+    for (int c = 0; c < gradient_points; c++) {
+        double f = (double)c / gradient_points_mod; 
 
         LXFloat4 a = stops[0];
         LXFloat4 b = stops[1];
@@ -50,10 +54,10 @@ public class Gradient {
 
   public LXFloat4 repeat(double i) {
       i %= 1;
-      i *= 255.0;
+      i *= gradient_points_mod;
       double f = i % 1;
-      LXFloat4 a = colors.get(((int)(i))&0xFF);
-      LXFloat4 b = colors.get(((int)(i)+1)&0xFF);
+      LXFloat4 a = colors.get(((int)(i))&gradient_points_mask);
+      LXFloat4 b = colors.get(((int)(i)+1)&gradient_points_mask);
       return a.lerp(b, f);
   }
 
@@ -65,10 +69,10 @@ public class Gradient {
         i %= 1;
         i = 1.0 - i;
       }
-      i *= 255.0;
+      i *= gradient_points_mod;
       double f = i % 1;
-      LXFloat4 a = colors.get((int)(i)&0xFF);
-      LXFloat4 b = colors.get((int)(i+1)&0xFF);
+      LXFloat4 a = colors.get((int)(i)&gradient_points_mask);
+      LXFloat4 b = colors.get((int)(i+1)&gradient_points_mask);
       return a.lerp(b, f);
   }
   
@@ -79,10 +83,10 @@ public class Gradient {
       if (i >= 1.0) {
           return colors.get(colors.size()-1);
       }
-      i *= 255.0;
+      i *= gradient_points_mod;
       double f = i % 1;
-      LXFloat4 a = colors.get((int)(i)&0xFF);
-      LXFloat4 b = colors.get((int)(i+1)&0xFF);
+      LXFloat4 a = colors.get((int)(i)&gradient_points_mask);
+      LXFloat4 b = colors.get((int)(i+1)&gradient_points_mask);
       return a.lerp(b, f);
   }
 
