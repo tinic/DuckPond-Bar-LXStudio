@@ -118,6 +118,14 @@ public class LXFloat4 {
     static public LXFloat4 div(LXFloat4 a, double div) {
         return new LXFloat4(a.x / div, a.y / div, a.z / div, a.w / div);
     }
+    
+    public LXFloat4 rotate2d(double angle) {
+        return new LXFloat4(
+          this.x * Math.cos(angle) - this.y * Math.sin(angle),
+          this.y * Math.cos(angle) + this.x * Math.sin(angle),
+          this.z,
+          this.w);
+    }
 
     public double len() {
         return Math.sqrt(x*x + y*y + z*z);

@@ -13,9 +13,12 @@ import org.tinic.duckpondbar.BarFixture;
 public class Umbrella  extends BarFixture {
 
   private Gradient rainbowGradient;
+  private Gradient rainbowGradientBright;
   private Gradient rainyGradient;
   private Gradient autumGradient;
   private Gradient winterGradient;
+  private Gradient happyGradient;
+  private Gradient eveningGradient;
   
   public LXFloat4 calc(BarPattern.Effect effect, int LEDindex, double time, LXFloat4 glob_pos) { 
       switch (effect) {
@@ -23,7 +26,7 @@ public class Umbrella  extends BarFixture {
             double x = Math.sin((toLocal(glob_pos).x + 1.0) * 0.25 + time * 0.050);
             double y = Math.cos((toLocal(glob_pos).y + 1.0) * 0.25 + time * 0.055);
             double l = 1.0 - toLocal(glob_pos).len() + 0.5;
-            return rainbowGradient.reflect(x * y).mul(l).clamp().gamma();
+            return rainbowGradientBright.reflect(x * y).mul(l).clamp().gamma();
           }
           case Summer: {
             double x0 = Math.sin((glob_pos.x + 1.0) * 0.5 + time * 0.050);
@@ -47,6 +50,19 @@ public class Umbrella  extends BarFixture {
             double l = 1.0 - toLocal(glob_pos).len() + 0.5;
             return winterGradient.reflect(x1 * y1).mul(l).mul(rainyGradient.reflect(x0 * y0)).clamp().gamma();
           } 
+          case Rainbow: {
+            double b = (Math.sin(glob_pos.x * 4.0 + time * 0.20) + Math.cos(glob_pos.y * 4.0 + time * 0.20)) * 0.25;
+            LXFloat4 pos = glob_pos.rotate2d(time * 0.20).add(new LXFloat4(time * 0.20, 0.0, 0.0, 0.0)).mul(0.05);
+            return rainbowGradientBright.repeat(pos.x).add(new LXFloat4(b,b,b,b)).clamp().gamma();
+          } 
+          case Happy: {
+            double a = Math.max(0.0, Math.cos(glob_pos.x + Math.sin(time * 0.10))+Math.sin(glob_pos.y + Math.cos(time* 0.10))-1.0);
+            LXFloat4 pos = glob_pos.rotate2d(time * 0.30).add(new LXFloat4(time * 0.30, 0.0, 0.0, 0.0)).mul(0.05);
+            double l = 1.0 - toLocal(glob_pos).len() + 0.5;
+            LXFloat4 c0 = happyGradient.reflect(pos.x).mul(l).clamp().gamma();
+            LXFloat4 c1 = eveningGradient.clamp(a);
+            return LXFloat4.lerp(c0, c1, a);
+          }
           case TestStrip: {
               int led = (int)(time * 10.0);
               led %= leds.size();
@@ -68,6 +84,25 @@ public class Umbrella  extends BarFixture {
     };
 
     this.rainbowGradient = new Gradient(rainbowGradient, Gradient.ColorMode.HSV);
+
+    LXFloat4[] rainbowGradientBright = {
+       new LXFloat4(0xff0000, 0.00),
+       new LXFloat4(0xffbd96, 0.10),
+       new LXFloat4(0xffff00, 0.17),
+       new LXFloat4(0xc3ffa9, 0.25),
+       new LXFloat4(0x00ff00, 0.33),
+       new LXFloat4(0xd1ffbf, 0.38),
+       new LXFloat4(0xaffff3, 0.44),
+       new LXFloat4(0x29fefe, 0.50),
+       new LXFloat4(0x637eff, 0.59),
+       new LXFloat4(0x0000ff, 0.67),
+       new LXFloat4(0x9c3fff, 0.75),
+       new LXFloat4(0xff00ff, 0.83),
+       new LXFloat4(0xffc2b0, 0.92),
+       new LXFloat4(0xff0000, 1.00)
+    };
+
+    this.rainbowGradientBright = new Gradient(rainbowGradientBright, Gradient.ColorMode.RGB);
 
     LXFloat4[] rainyGradient = {
        new LXFloat4(0x000000, 0.00),
@@ -101,7 +136,26 @@ public class Umbrella  extends BarFixture {
     };
 
     this.winterGradient = new Gradient(winterGradient, Gradient.ColorMode.RGB);
-  }
+
+    LXFloat4[] happyGradient = {
+       new LXFloat4(0x22c1c3,0.00),
+       new LXFloat4(0x4387c0,0.33),
+       new LXFloat4(0xbb6161,0.66),
+       new LXFloat4(0xfdbb2d,1.00)
+    };
+
+    this.happyGradient = new Gradient(happyGradient, Gradient.ColorMode.RGB);
+
+    LXFloat4[] eveningGradient = {
+       new LXFloat4(0x000000,0.00),
+       new LXFloat4(0x4387c0,0.80),
+       new LXFloat4(0xbb6161,0.90),
+       new LXFloat4(0xff9500,0.95),
+       new LXFloat4(0xffffff,1.00)
+    };
+
+    this.eveningGradient = new Gradient(eveningGradient, Gradient.ColorMode.RGB);
+}
 
   Umbrella(int id, String ip, double xl, double yl, double zl) {
     super(ip);

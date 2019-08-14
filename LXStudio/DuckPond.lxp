@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "timestamp": 1564524238542,
+  "timestamp": 1565814718657,
   "engine": {
     "id": 1,
     "class": "heronarts.lx.LXEngine",
@@ -55,23 +55,23 @@
           "midiChannel": 16,
           "autoCycleEnabled": true,
           "autoCycleMode": 0,
-          "autoCycleTimeSecs": 60.0,
+          "autoCycleTimeSecs": 600.0,
           "transitionEnabled": true,
-          "transitionTimeSecs": 10.0,
+          "transitionTimeSecs": 20.0,
           "transitionBlendMode": 0
         },
         "effects": [],
         "clips": [],
-        "patternIndex": 3,
+        "patternIndex": 5,
         "patterns": [
           {
-            "id": 169,
+            "id": 241,
             "class": "org.tinic.duckpondbar.BarPattern",
-            "modulationColor": -16711720,
+            "modulationColor": -16721409,
             "parameters": {
               "label": "Bar",
               "effect": 0,
-              "speed": 2.2351741790771484E-7
+              "speed": 0.0
             },
             "modulation": {
               "modulators": [],
@@ -81,9 +81,9 @@
             "autoCycleEnabled": true
           },
           {
-            "id": 237,
+            "id": 259,
             "class": "org.tinic.duckpondbar.BarPattern",
-            "modulationColor": -16722433,
+            "modulationColor": -1114368,
             "parameters": {
               "label": "Bar",
               "effect": 1,
@@ -97,9 +97,9 @@
             "autoCycleEnabled": true
           },
           {
-            "id": 239,
+            "id": 261,
             "class": "org.tinic.duckpondbar.BarPattern",
-            "modulationColor": -59136,
+            "modulationColor": -6881536,
             "parameters": {
               "label": "Bar",
               "effect": 2,
@@ -113,12 +113,44 @@
             "autoCycleEnabled": true
           },
           {
-            "id": 241,
+            "id": 263,
             "class": "org.tinic.duckpondbar.BarPattern",
-            "modulationColor": -16721409,
+            "modulationColor": -7536896,
             "parameters": {
               "label": "Bar",
               "effect": 3,
+              "speed": 0.0
+            },
+            "modulation": {
+              "modulators": [],
+              "modulations": [],
+              "triggers": []
+            },
+            "autoCycleEnabled": true
+          },
+          {
+            "id": 265,
+            "class": "org.tinic.duckpondbar.BarPattern",
+            "modulationColor": -10026753,
+            "parameters": {
+              "label": "Bar",
+              "effect": 4,
+              "speed": 0.0
+            },
+            "modulation": {
+              "modulators": [],
+              "modulations": [],
+              "triggers": []
+            },
+            "autoCycleEnabled": true
+          },
+          {
+            "id": 267,
+            "class": "org.tinic.duckpondbar.BarPattern",
+            "modulationColor": -13369089,
+            "parameters": {
+              "label": "Bar",
+              "effect": 5,
               "speed": 0.0
             },
             "modulation": {

@@ -16,7 +16,10 @@ public class BarTop extends BarFixture {
   private Gradient summerGradient;
   private Gradient autumGradient;
   private Gradient winterGradient;
-  
+  private Gradient rainbowGradient;
+  private Gradient rainbowGradientBright;
+  private Gradient happyGradient;
+
   public LXFloat4 calc(BarPattern.Effect effect, int LEDindex, double time, LXFloat4 glob_pos) { 
       switch (effect) {
           case Spring: {
@@ -34,6 +37,14 @@ public class BarTop extends BarFixture {
           case Winter: {
             double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05;
             return winterGradient.reflect(x).clamp();
+          } 
+          case Rainbow: {
+            double x = ((toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05) * 0.25;
+            return rainbowGradientBright.repeat(x).clamp();
+          } 
+          case Happy: {
+            double x = ((toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05) * 0.25;
+            return happyGradient.reflect(x).clamp();
           } 
           case TestStrip: {
               int led = (int)(time * 10.0);
@@ -89,6 +100,41 @@ public class BarTop extends BarFixture {
       };
   
       this.winterGradient = new Gradient(winterGradient, Gradient.ColorMode.RGB);
+
+      LXFloat4[] rainbowGradient = {
+         new LXFloat4(0.0, 1.0, 1.0, 0.00),
+         new LXFloat4(1.0, 1.0, 1.0, 1.00)
+      };
+  
+      this.rainbowGradient = new Gradient(rainbowGradient, Gradient.ColorMode.HSV);
+
+      LXFloat4[] rainbowGradientBright = {
+         new LXFloat4(0xff0000, 0.00),
+         new LXFloat4(0xffbd96, 0.10),
+         new LXFloat4(0xffff00, 0.17),
+         new LXFloat4(0xc3ffa9, 0.25),
+         new LXFloat4(0x00ff00, 0.33),
+         new LXFloat4(0xd1ffbf, 0.38),
+         new LXFloat4(0xaffff3, 0.44),
+         new LXFloat4(0x29fefe, 0.50),
+         new LXFloat4(0x637eff, 0.59),
+         new LXFloat4(0x0000ff, 0.67),
+         new LXFloat4(0x9c3fff, 0.75),
+         new LXFloat4(0xff00ff, 0.83),
+         new LXFloat4(0xffc2b0, 0.92),
+         new LXFloat4(0xff0000, 1.00)
+      };
+
+      this.rainbowGradientBright = new Gradient(rainbowGradientBright, Gradient.ColorMode.RGB);
+
+      LXFloat4[] happyGradient = {
+         new LXFloat4(0x22c1c3,0.00),
+         new LXFloat4(0x4387c0,0.33),
+         new LXFloat4(0xbb6161,0.66),
+         new LXFloat4(0xfdbb2d,1.00)
+      };
+  
+      this.happyGradient = new Gradient(happyGradient, Gradient.ColorMode.RGB);
   }
 
   BarTop(String ip) {
