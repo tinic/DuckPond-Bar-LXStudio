@@ -50,12 +50,12 @@ public class Umbrella  extends BarFixture {
             double l = 1.0 - toLocal(glob_pos).len() + 0.5;
             return winterGradient.reflect(x1 * y1).mul(l).mul(rainyGradient.reflect(x0 * y0)).clamp().gamma();
           } 
-          case Rainbow: {
+          case AfterRain: {
             double b = (Math.sin(glob_pos.x * 4.0 + time * 0.20) + Math.cos(glob_pos.y * 4.0 + time * 0.20)) * 0.25;
             LXFloat4 pos = glob_pos.rotate2d(time * 0.20).add(new LXFloat4(time * 0.20, 0.0, 0.0, 0.0)).mul(0.05);
             return rainbowGradientBright.repeat(pos.x).add(new LXFloat4(b,b,b,b)).clamp().gamma();
           } 
-          case Happy: {
+          case SunsetSunrise: {
             double a = Math.max(0.0, Math.cos(glob_pos.x + Math.sin(time * 0.10))+Math.sin(glob_pos.y + Math.cos(time* 0.10))-1.0);
             LXFloat4 pos = glob_pos.rotate2d(time * 0.30).add(new LXFloat4(time * 0.30, 0.0, 0.0, 0.0)).mul(0.05);
             double l = 1.0 - toLocal(glob_pos).len() + 0.5;

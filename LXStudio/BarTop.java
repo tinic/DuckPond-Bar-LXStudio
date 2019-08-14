@@ -38,11 +38,11 @@ public class BarTop extends BarFixture {
             double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05;
             return winterGradient.reflect(x).clamp();
           } 
-          case Rainbow: {
+          case AfterRain: {
             double x = ((toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05) * 0.25;
             return rainbowGradientBright.repeat(x).clamp();
           } 
-          case Happy: {
+          case SunsetSunrise: {
             double x = ((toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05) * 0.25;
             return happyGradient.reflect(x).clamp();
           } 
