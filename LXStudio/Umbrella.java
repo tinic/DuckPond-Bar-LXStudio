@@ -42,6 +42,8 @@ public class Umbrella  extends BarFixture {
   private Gradient happyGradient;
   private Gradient eveningGradient;
   private Gradient desertDream;
+  private Gradient inTheJungle;
+  private Gradient darkLight;
   
   public LXFloat4 calc(BarPattern.Effect effect, int LEDindex, double time, LXFloat4 glob_pos) { 
       switch (effect) {
@@ -94,6 +96,14 @@ public class Umbrella  extends BarFixture {
             double l = 1.0 - toLocal(glob_pos).len() + 0.5;
             return desertDream.reflect(x1 * y1).mul(l).add(desertDream.reflect(x0 * y0)).clamp().gamma();
           } 
+          case InTheJungle: {
+            double a = Math.max(0.0, Math.cos(glob_pos.x + Math.sin(time * 0.10))+Math.sin(glob_pos.y + Math.cos(time* 0.10))-1.0);
+            LXFloat4 pos = glob_pos.rotate2d(time * 0.30).add(new LXFloat4(time * 0.30, 0.0, 0.0, 0.0)).mul(0.05);
+            double l = 1.0 - toLocal(glob_pos).len() + 0.5;
+            LXFloat4 c0 = inTheJungle.reflect(pos.x).mul(l).clamp().gamma();
+            LXFloat4 c1 = darkLight.clamp(a);
+            return LXFloat4.lerp(c0, c1, a);
+          }
           case TestStrip: {
               int led = (int)(time * 10.0);
               led %= leds.size();
@@ -197,7 +207,28 @@ public class Umbrella  extends BarFixture {
     };
 
     this.desertDream = new Gradient(desertDream, Gradient.ColorMode.RGB);
-  }
+
+    LXFloat4[] inTheJungle = {
+       new LXFloat4(0x135e46,0.00),
+       new LXFloat4(0x478966,0.20),
+       new LXFloat4(0x73a788,0.40),
+       new LXFloat4(0xe3c6ad,0.70),
+       new LXFloat4(0xd09d7b,0.90),
+       new LXFloat4(0xb67b65,1.00)
+    };
+
+    this.inTheJungle = new Gradient(inTheJungle, Gradient.ColorMode.RGB);
+
+    LXFloat4[] darkLight = {
+       new LXFloat4(0x000000,0.00),
+       new LXFloat4(0x135e46,0.50),
+       new LXFloat4(0x2ea61b,0.65),
+       new LXFloat4(0x478966,0.70),
+       new LXFloat4(0x000000,1.00)
+    };
+
+    this.darkLight = new Gradient(darkLight, Gradient.ColorMode.RGB);
+}
 
   Umbrella(int id, String ip, double xl, double yl, double zl) {
     super(ip);

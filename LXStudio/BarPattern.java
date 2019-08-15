@@ -56,6 +56,7 @@ public class BarPattern extends LXPattern {
     AfterRain,
     SunsetSunrise,
     DesertDream,
+    InTheJungle,
     TestStrip,
   };
 
