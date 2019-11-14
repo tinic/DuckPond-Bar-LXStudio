@@ -67,18 +67,10 @@ public class NetworkSetup {
     try {
       LXDatagramOutput output = new LXDatagramOutput(lx);
   
-      BarTop bar = ((DuckPondBar)lx.model).barTop();
-      if (bar != null) {
+      List<BarTop> tops = ((DuckPondBar)lx.model).barTop();
+      for (int u = 0 ; u < tops.size(); u++) {
         // Port A
-        addDatagram(output, 0, getIndices(bar.top_front), bar.ip);
-        // Port B
-        addDatagram(output, 4, getIndices(bar.top_back), bar.ip);
-      }
-      
-      List<Umbrella> umbrellas = ((DuckPondBar)lx.model).umbrellas();
-      for (int u = 0 ; u < umbrellas.size(); u++) {
-        // Port A
-        addDatagram(output, 0, getIndices(umbrellas.get(u).getPoints()), umbrellas.get(u).ip);
+        addDatagram(output, 0, getIndices(tops.get(u).getPoints()), tops.get(u).ip);
       }
   
       final double MAX_BRIGHTNESS = 0.75;
