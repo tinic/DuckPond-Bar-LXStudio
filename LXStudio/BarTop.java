@@ -47,35 +47,35 @@ public class BarTop extends BarFixture {
   public LXFloat4 calc(BarPattern.Effect effect, int LEDindex, double time, LXFloat4 glob_pos) { 
       switch (effect) {
           case Spring: {
-            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05;
+            double x = ((glob_pos).x + 1.0) * 0.25 + time * 0.05;
             return springGradient.reflect(x).gamma().clamp();
           }
           case Summer: {
-            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05;
+            double x = ((glob_pos).x + 1.0) * 0.25 + time * 0.05;
             return summerGradient.reflect(x).gamma().clamp();
           } 
           case Autum: {
-            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05;
+            double x = ((glob_pos).x + 1.0) * 0.25 + time * 0.05;
             return autumGradient.reflect(x).gamma().clamp();
           } 
           case Winter: {
-            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05;
+            double x = ((glob_pos).x + 1.0) * 0.25 + time * 0.05;
             return winterGradient.reflect(x).gamma().clamp();
           } 
           case AfterRain: {
-            double x = ((toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05) * 0.25;
+            double x = (((glob_pos).x + 1.0) * 0.25 + time * 0.05) * 0.25;
             return rainbowGradientBright.repeat(x).gamma().clamp();
           } 
           case SunsetSunrise: {
-            double x = ((toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05) * 0.25;
+            double x = (((glob_pos).x + 1.0) * 0.25 + time * 0.05) * 0.25;
             return happyGradient.reflect(x).gamma().clamp();
           } 
           case DesertDream: {
-            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05;
+            double x = ((glob_pos).x + 1.0) * 0.25 + time * 0.05;
             return desertDream.reflect(x).gamma().clamp();
           } 
           case InTheJungle: {
-            double x = (toLocal(glob_pos).x + 1.0) * 0.5 + time * 0.05;
+            double x = ((glob_pos).x + 1.0) * 0.25 + time * 0.05;
             return inTheJungle.reflect(x).gamma().clamp();
           } 
           case TestStrip: {

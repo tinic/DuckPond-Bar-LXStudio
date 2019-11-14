@@ -35,8 +35,8 @@ public class DuckPondBar extends LXModel {
   static public DuckPondBar create() {
 
     LXFixture fixtures[] = {
-      new BarTop("192.168.1.148",0,0),
-      new BarTop("192.168.1.148",-340*0.015,0)
+      new BarTop("lightkraken-1b94e966",0,0),
+      new BarTop("lightkraken-26ded400",-340*0.015,0)
     };
     
     return new DuckPondBar(fixtures);
