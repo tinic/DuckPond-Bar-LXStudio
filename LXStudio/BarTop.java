@@ -103,19 +103,18 @@ public class BarTop extends BarFixture {
       this.springGradient = new Gradient(springGradient, Gradient.ColorMode.RGB);
   
       LXFloat4[] summerGradient = {
-         new LXFloat4(0x0e7396,0.00),
-         new LXFloat4(0x7dbc3c,0.22),
-         new LXFloat4(0x91cb2b,0.34),
-         new LXFloat4(0xff9d61,0.64),
-         new LXFloat4(0xff7940,0.85),
-         new LXFloat4(0xff9100,1.00)
+         new LXFloat4(0xff5200,0.00),
+         new LXFloat4(0xff0000,0.37),
+         new LXFloat4(0xffffff,0.76),
+         new LXFloat4(0xffffff,0.80),
+         new LXFloat4(0xff5200,1.00)
       };
   
       this.summerGradient = new Gradient(summerGradient, Gradient.ColorMode.RGB);
   
       LXFloat4[] autumGradient = {
          new LXFloat4(0xe7790b,0.00),
-         new LXFloat4(0xd1aa29,0.32),
+         new LXFloat4(0xd8e00a,0.32),
          new LXFloat4(0xfac5a4,0.56),
          new LXFloat4(0xed7353,0.90),
          new LXFloat4(0xff0000,1.00)
@@ -124,11 +123,10 @@ public class BarTop extends BarFixture {
       this.autumGradient = new Gradient(autumGradient, Gradient.ColorMode.RGB);
     
       LXFloat4[] winterGradient = {
-         new LXFloat4(0xa3eed6,0.00),
-         new LXFloat4(0xdcbcd4,0.21),
-         new LXFloat4(0xff96d0,0.39),
-         new LXFloat4(0xcb81d6,0.65),
-         new LXFloat4(0x4b51f5,1.00)
+         new LXFloat4(0xb20be7,0.00),
+         new LXFloat4(0xe00a85,0.32),
+         new LXFloat4(0xe00a85,0.69),
+         new LXFloat4(0xe00a85,1.00)
       };
   
       this.winterGradient = new Gradient(winterGradient, Gradient.ColorMode.RGB);
@@ -160,32 +158,34 @@ public class BarTop extends BarFixture {
       this.rainbowGradientBright = new Gradient(rainbowGradientBright, Gradient.ColorMode.RGB);
 
       LXFloat4[] happyGradient = {
-         new LXFloat4(0x22c1c3,0.00),
-         new LXFloat4(0x4387c0,0.33),
-         new LXFloat4(0xbb6161,0.66),
-         new LXFloat4(0xfdbb2d,1.00)
+         new LXFloat4(0xe70b0b,0.00),
+         new LXFloat4(0xffefa3,0.59),
+         new LXFloat4(0xffffff,0.89),
+         new LXFloat4(0xff0000,1.00)
       };
   
       this.happyGradient = new Gradient(happyGradient, Gradient.ColorMode.RGB);
 
       LXFloat4[] desertDream = {
-         new LXFloat4(0x4d5951,0.00),
-         new LXFloat4(0x372a25,0.19),
-         new LXFloat4(0x863c25,0.41),
-         new LXFloat4(0xa15123,0.63),
-         new LXFloat4(0xd6aa68,0.84),
-         new LXFloat4(0xf7d6b4,1.00)
+         new LXFloat4(0x5e132e,0.00),
+         new LXFloat4(0x9f4242,0.20),
+         new LXFloat4(0xa7738d,0.40),
+         new LXFloat4(0xf6d3b5,0.70),
+         new LXFloat4(0xd09d7b,0.90),
+         new LXFloat4(0xd09d7b,1.00)
       };
   
       this.desertDream = new Gradient(desertDream, Gradient.ColorMode.RGB);
 
       LXFloat4[] inTheJungle = {
-         new LXFloat4(0x135e46,0.00),
-         new LXFloat4(0x478966,0.20),
-         new LXFloat4(0x73a788,0.40),
-         new LXFloat4(0xe3c6ad,0.70),
-         new LXFloat4(0xd09d7b,0.90),
-         new LXFloat4(0xb67b65,1.00)
+         new LXFloat4(0xf0dada,0.00),
+         new LXFloat4(0xffffff,0.14),
+         new LXFloat4(0xff2a2a,0.32),
+         new LXFloat4(0xf6d94c,0.46),
+         new LXFloat4(0xfefefe,0.62),
+         new LXFloat4(0xf6d3b5,0.76),
+         new LXFloat4(0xffffff,0.90),
+         new LXFloat4(0xb03737,1.00)
       };
   
       this.inTheJungle = new Gradient(inTheJungle, Gradient.ColorMode.RGB);
